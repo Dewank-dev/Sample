@@ -15,7 +15,7 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:wght@500;600;700&family=Great+Vibes&family=Tiro+Devanagari+Hindi&family=Yatra+One&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Libre+Baskerville:wght@400;700&family=Pinyon+Script&family=Tiro+Devanagari+Hindi&family=Yatra+One&display=swap" rel="stylesheet" />
     <style>
       :root {
         --red: #b3131b;
@@ -44,6 +44,10 @@
         --safe-bottom: max(16px, env(safe-area-inset-bottom));
         --safe-left: max(16px, env(safe-area-inset-left));
         --safe-right: max(16px, env(safe-area-inset-right));
+        --font-display: "Libre Baskerville", Georgia, "Times New Roman", serif;
+        --font-body: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+        --font-script: "Pinyon Script", "Brush Script MT", cursive;
+        --font-label: "Cinzel", Georgia, "Times New Roman", serif;
       }
 
       * { box-sizing: border-box; }
@@ -54,7 +58,7 @@
 
       html, body {
         margin: 0;
-        font-family: "Cormorant Garamond", Georgia, serif;
+        font-family: var(--font-body);
         background: var(--dark);
         color: var(--ink);
         line-height: 1.5;
@@ -154,7 +158,7 @@
       }
 
       .gold-script {
-        font-family: "Great Vibes", cursive;
+        font-family: var(--font-script);
         font-weight: 400;
         letter-spacing: 0.02em;
         color: var(--deep-red);
@@ -189,7 +193,7 @@
       }
 
       .script-name {
-        font-family: "Great Vibes", cursive;
+        font-family: var(--font-script);
         position: relative;
         display: inline-block;
         background: var(--heading-gradient);
@@ -209,6 +213,12 @@
       }
 
       .reveal {
+        /* Keep content readable when scripts are disabled. */
+        opacity: 1;
+        transform: none;
+      }
+
+      .js .reveal {
         opacity: 0;
         transform: translateY(22px) scale(0.98);
         transition: opacity 700ms ease, transform 700ms ease;
@@ -230,6 +240,11 @@
       }
 
       .reveal-panel {
+        opacity: 1;
+        transform: none;
+      }
+
+      .js .reveal-panel {
         opacity: 0;
         transform: translateY(22px);
         transition: opacity 700ms ease, transform 700ms ease;
@@ -241,6 +256,11 @@
       }
 
       .reveal-divider {
+        opacity: 1;
+        transform: none;
+      }
+
+      .js .reveal-divider {
         opacity: 0;
         transform: scaleX(0.3) scaleY(0.6);
         transform-origin: center;
@@ -253,9 +273,12 @@
       }
 
       .reveal-words span {
+        display: inline-block;
+      }
+
+      .js .reveal-words span {
         opacity: 0;
         transform: translateY(10px);
-        display: inline-block;
         transition: opacity 500ms ease, transform 500ms ease;
       }
 
@@ -286,11 +309,15 @@
       }
 
       .hero-tag {
-        font: 600 0.8rem/1.2 "Cinzel", serif;
-        letter-spacing: 0.18em;
+        display: inline-block;
+        margin-bottom: 2px;
+        padding: 3px 12px 5px;
+        border-bottom: 1px solid rgba(231, 195, 109, .42);
+        font: 600 0.9rem/1.35 "Yatra One", "Tiro Devanagari Hindi", serif;
+        letter-spacing: 0.05em;
         text-transform: uppercase;
-        color: rgba(255, 236, 197, 0.9);
-        margin: 0 0 8px;
+        color: #f4d98c;
+        text-shadow: 0 2px 14px rgba(242, 190, 83, .32);
       }
 
       .deva-title {
@@ -306,7 +333,7 @@
       }
 
       .hero-visual {
-        margin-top: 24px;
+        margin-top: 22px;
         padding: 0 16px;
       }
 
@@ -315,17 +342,18 @@
         isolation: isolate;
         width: min(100%, 350px);
         margin: 0 auto;
-        padding: 14px 14px 12px;
-        border-radius: 24px 24px 40px 40px;
-        background: linear-gradient(180deg, rgba(255, 233, 165, 0.22), rgba(5, 0, 0, 0.1));
-        box-shadow: 0 15px 30px rgba(56, 12, 13, 0.26);
+        padding: 10px;
+        border: 1px solid rgba(241, 207, 126, .72);
+        border-radius: 22px 22px 34px 34px;
+        background: linear-gradient(145deg, rgba(255, 231, 168, .2), rgba(69, 9, 16, .58));
+        box-shadow: 0 18px 40px rgba(18, 1, 5, .42), inset 0 0 0 3px rgba(255, 226, 155, .08);
       }
 
       .jharokha-frame::before {
         content: "";
         position: absolute;
         inset: 0;
-        border-radius: 28px 28px 42px 42px;
+        border-radius: 24px 24px 36px 36px;
         z-index: -1;
         pointer-events: none;
         background: conic-gradient(from 0deg, rgba(247, 214, 120, 0.2), rgba(255,255,255,0.05), rgba(247,214,120,0.2));
@@ -358,8 +386,28 @@
         z-index: 1;
         border-radius: 18px 18px 28px 28px;
         overflow: hidden;
-        border: 2px solid rgba(249, 212, 122, 0.95);
-        background: rgba(15, 13, 12, 0.2);
+        border: 1px solid rgba(255, 226, 154, .92);
+        background: #26090d;
+        box-shadow: inset 0 0 0 3px rgba(248, 212, 133, .12);
+      }
+
+      .jharokha-frame > .frame-inner::before,
+      .jharokha-frame > .frame-inner::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        pointer-events: none;
+      }
+
+      .jharokha-frame > .frame-inner::before {
+        inset: 9px;
+        border: 1px solid rgba(255, 229, 169, .48);
+        border-radius: 12px 12px 21px 21px;
+      }
+
+      .jharokha-frame > .frame-inner::after {
+        background: linear-gradient(180deg, rgba(27, 3, 8, .12), transparent 22%, transparent 78%, rgba(27, 3, 8, .2));
       }
 
       .jharokha-frame video,
@@ -368,39 +416,58 @@
         aspect-ratio: 3/4;
         object-fit: cover;
         display: block;
-        filter: saturate(1.15) contrast(1.02);
+        filter: saturate(1.1) contrast(1.04) brightness(.98);
       }
 
       .hero-names {
-        margin-top: 18px;
+        margin-top: 20px;
+      }
+
+      .hero-names::before {
+        content: "";
+        display: block;
+        width: 76px;
+        height: 1px;
+        margin: 0 auto 12px;
+        background: linear-gradient(90deg, transparent, rgba(233, 196, 106, .9), transparent);
       }
 
       .hero-names h1 {
+        max-width: 100%;
         margin: 0;
-        font-size: clamp(2.5rem, 9vw, 4rem);
-        line-height: 0.9;
-        font-family: "Great Vibes", cursive;
+        padding-inline: 6px;
+        font-size: clamp(2.35rem, 9.4vw, 3.8rem);
+        line-height: .98;
+        font-family: var(--font-script);
         font-weight: 400;
         letter-spacing: 0.02em;
-        background: var(--heading-gradient);
+        background: linear-gradient(180deg, #fff4cb 0%, #f3d77f 42%, #c5903d 100%);
         -webkit-background-clip: text;
         background-clip: text;
         color: transparent;
+        filter: drop-shadow(0 3px 12px rgba(15, 0, 3, .55));
+        text-wrap: balance;
       }
 
       .hero-date {
-        margin-top: 10px;
-        color: rgba(255, 242, 220, 0.92);
-        font-size: 1.06rem;
-        letter-spacing: 0.08em;
+        display: inline-block;
+        margin: 16px auto 0;
+        max-width: 100%;
+        padding: 7px 10px;
+        border-top: 1px solid rgba(233, 196, 106, .38);
+        border-bottom: 1px solid rgba(233, 196, 106, .22);
+        color: #f8e8bd;
+        font-size: clamp(.72rem, 3.3vw, .88rem);
+        letter-spacing: 0.13em;
         text-transform: uppercase;
-        font-family: "Cinzel", serif;
+        font-family: var(--font-label);
+        text-wrap: balance;
       }
 
       .scroll-prompt {
-        margin-top: 18px;
-        color: rgba(255, 235, 196, 0.9);
-        font-family: "Cormorant Garamond", serif;
+        margin-top: 15px;
+        color: rgba(245, 218, 159, .92);
+        font-family: var(--font-body);
         font-style: italic;
         font-size: 1.2rem;
         display: inline-flex;
@@ -430,20 +497,20 @@
 
       .section-header h2 {
         margin: 0;
-        font-family: "Cinzel", serif;
-        font-size: clamp(1.35rem, 5vw, 1.8rem);
-        line-height: 1.2;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
+        font-family: var(--font-display);
+        font-size: clamp(1.55rem, 6vw, 2.05rem);
+        line-height: 1.12;
+        font-weight: 600;
+        letter-spacing: 0.015em;
         color: var(--deep-red);
       }
 
       .section-header h3 {
         margin: 0;
-        font-family: "Cinzel", serif;
-        font-size: 0.9rem;
-        letter-spacing: 0.18em;
-        text-transform: uppercase;
+        font-family: var(--font-display);
+        font-size: 1.15rem;
+        font-weight: 500;
+        letter-spacing: 0.02em;
         color: var(--soft-ink);
       }
 
@@ -560,16 +627,18 @@
         font-size: 1.1rem;
         margin: 0;
         letter-spacing: 0.08em;
-        font-family: "Cinzel", serif;
+        font-family: var(--font-label);
         text-transform: uppercase;
         color: var(--gold);
       }
 
       .panel-inner .guest-name {
+        max-width: 100%;
         margin-top: 0;
-        font-family: "Great Vibes", cursive;
-        font-size: clamp(2.2rem, 9vw, 3.1rem);
-        line-height: 1;
+        font-family: var(--font-display);
+        font-size: clamp(1.55rem, 7vw, 2.7rem);
+        line-height: 1.1;
+        overflow-wrap: anywhere;
         color: var(--deep-red);
       }
 
@@ -603,15 +672,15 @@
       }
 
       .panel-copy {
-        font-family: "Cinzel", serif;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        font-size: 0.8rem;
+        font-family: var(--font-body);
+        font-size: 1.12rem;
+        line-height: 1.45;
+        letter-spacing: 0.015em;
         color: var(--soft-ink);
       }
 
       .pair-name {
-        font-family: "Great Vibes", cursive;
+        font-family: var(--font-script);
         font-size: clamp(2.5rem, 9vw, 3.6rem);
         line-height: 0.9;
         margin: 4px 0 0;
@@ -624,11 +693,12 @@
 
       .parents-line {
         margin-top: 6px;
-        font-family: "Cinzel", serif;
-        letter-spacing: 0.06em;
+        font-family: var(--font-body);
+        letter-spacing: 0.015em;
         color: var(--soft-ink);
-        font-size: 0.72rem;
-        text-transform: uppercase;
+        font-size: 1rem;
+        line-height: 1.3;
+        text-transform: none;
       }
 
       .kalash-badge {
@@ -658,12 +728,12 @@
         border-radius: 50%;
         border: 1px solid rgba(201, 161, 59, 0.8);
         font-weight: 700;
-        font-family: "Cinzel", serif;
+        font-family: var(--font-display);
       }
 
       .wedding-date-inline {
         margin-top: 14px;
-        font-family: "Cinzel", serif;
+        font-family: var(--font-label);
         text-transform: uppercase;
         letter-spacing: 0.06em;
         color: var(--deep-red);
@@ -671,7 +741,7 @@
       }
 
       .celebration-line {
-        font-family: "Cinzel", serif;
+        font-family: var(--font-label);
         letter-spacing: 0.12em;
         color: var(--deep-red);
         text-transform: uppercase;
@@ -721,9 +791,10 @@
         display: block;
         font-weight: 700;
         font-size: clamp(1.8rem, 7vw, 2.4rem);
-        font-family: "Cinzel", serif;
+        font-family: var(--font-display);
         color: #fff4d3;
         line-height: 1;
+        font-variant-numeric: tabular-nums;
         margin: 12px 0 0;
       }
 
@@ -734,13 +805,13 @@
         letter-spacing: 0.16em;
         color: rgba(255, 241, 211, 0.76);
         text-transform: uppercase;
-        font-family: "Cinzel", serif;
+        font-family: var(--font-label);
       }
 
       .wedding-status {
         margin-top: 18px;
         color: rgba(255, 236, 196, 0.88);
-        font-family: "Cinzel", serif;
+        font-family: var(--font-label);
         letter-spacing: 0.1em;
         text-transform: uppercase;
         font-size: 0.8rem;
@@ -768,6 +839,17 @@
         overflow: hidden;
         background: linear-gradient(140deg, rgba(255, 212, 119, 0.1), rgba(203, 151, 64, 0.4));
         box-shadow: 0 12px 24px rgba(82, 35, 13, 0.08);
+        transition: box-shadow 350ms ease, transform 350ms ease;
+      }
+
+      .leaf-card.is-scratched {
+        animation: scratch-celebration 950ms ease-out both;
+      }
+
+      @keyframes scratch-celebration {
+        0% { box-shadow: 0 12px 24px rgba(82,35,13,.08); }
+        45% { box-shadow: 0 0 32px rgba(220,167,59,.5), 0 12px 24px rgba(82,35,13,.08); }
+        100% { box-shadow: 0 8px 22px rgba(82,35,13,.12); }
       }
 
       .leaf-card::before {
@@ -812,21 +894,25 @@
       }
 
       .leaf-card .weekday {
-        font-family: "Great Vibes", cursive;
-        font-size: 2.2rem;
+        font-family: var(--font-display);
+        font-size: clamp(1.55rem, 7vw, 2rem);
+        font-weight: 500;
+        line-height: 1.15;
         color: var(--deep-red);
       }
 
       .leaf-card .daynum {
-        font-family: "Cinzel", serif;
+        font-family: var(--font-display);
         font-size: 3.1rem;
         color: var(--deep-red);
         line-height: 1;
       }
 
       .leaf-card .month {
-        font-family: "Great Vibes", cursive;
-        font-size: 2rem;
+        font-family: var(--font-body);
+        font-size: 1.35rem;
+        font-weight: 600;
+        line-height: 1.3;
         color: var(--deep-red);
       }
 
@@ -834,7 +920,7 @@
         margin-top: 12px;
         text-align: center;
         color: var(--soft-ink);
-        font-family: "Cinzel", serif;
+        font-family: var(--font-label);
         letter-spacing: 0.06em;
         text-transform: uppercase;
         font-size: 0.75rem;
@@ -846,7 +932,7 @@
         background: transparent;
         border: 0;
         color: var(--deep-red);
-        font-family: "Cinzel", serif;
+        font-family: var(--font-label);
         font-size: 0.8rem;
         letter-spacing: 0.08em;
         text-transform: uppercase;
@@ -873,6 +959,10 @@
         height: 100%;
         background: linear-gradient(180deg, rgba(201,161,59,0.7), rgba(201,161,59,0.2));
         transform-origin: top center;
+        transform: scaleY(1);
+      }
+
+      .js .timeline::before {
         transform: scaleY(0);
         transition: transform 1.2s ease;
       }
@@ -889,12 +979,17 @@
         background: rgba(255,255,255,0.75);
         border: 1px solid rgba(178, 134, 42, 0.3);
         box-shadow: 0 9px 16px rgba(71, 28, 19, 0.06);
-        opacity: 0;
-        transform: translateX(18px);
-        transition: opacity 700ms ease, transform 700ms ease;
+        opacity: 1;
+        transform: none;
       }
 
-      .function-card:nth-child(even) {
+      .js .function-card {
+        opacity: 0;
+        transform: translateX(18px);
+        transition: opacity 700ms ease, transform 700ms ease, box-shadow 220ms ease, border-color 220ms ease;
+      }
+
+      .js .function-card:nth-child(even) {
         transform: translateX(-18px);
       }
 
@@ -938,17 +1033,18 @@
       }
 
       .function-name {
-        font-family: "Cinzel", serif;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        font-size: 0.9rem;
+        font-family: var(--font-display);
+        font-weight: 600;
+        letter-spacing: 0.015em;
+        font-size: 1.22rem;
         color: var(--deep-red);
         margin: 0;
       }
 
       .function-meta {
         margin-top: 8px;
-        font-size: 1rem;
+        font-family: var(--font-body);
+        font-size: 1.08rem;
         color: var(--ink);
       }
 
@@ -956,7 +1052,7 @@
         display: inline-block;
         padding: 4px 10px;
         border-radius: 999px;
-        font-family: "Cinzel", serif;
+        font-family: var(--font-label);
         font-size: 0.7rem;
         letter-spacing: 0.08em;
         text-transform: uppercase;
@@ -984,7 +1080,7 @@
         border-radius: 999px;
         min-height: 44px;
         padding: 9px 14px;
-        font-family: "Cinzel", serif;
+        font-family: var(--font-label);
         letter-spacing: 0.05em;
         text-transform: uppercase;
         font-size: 0.7rem;
@@ -1009,69 +1105,112 @@
         transform: translateY(-1px);
       }
 
-      .venue-box {
-        padding: 0 0 12px;
+      .venue-section {
+        padding-top: 42px;
+        padding-bottom: 42px;
       }
 
-      .venue-box .venue-name {
-        font-family: "Cinzel", serif;
+      .venue-section .section-header {
+        margin-bottom: 20px;
+      }
+
+      .venue-kicker {
+        margin: 0 0 7px;
+        color: var(--deep-gold);
+        font: 600 .66rem/1.4 var(--font-label);
+        letter-spacing: .2em;
         text-transform: uppercase;
-        letter-spacing: 0.1em;
-        font-size: 1.1rem;
-        color: var(--deep-red);
-        margin: 0 0 8px;
       }
 
-      .venue-box .venue-address {
-        margin: 0 0 14px;
-        font-size: 1.02rem;
-        color: var(--ink);
+      .venue-card {
+        position: relative;
+        padding: 16px;
+        border: 1px solid rgba(178, 134, 42, .38);
+        border-radius: 24px;
+        background: linear-gradient(155deg, rgba(255,255,255,.92), rgba(255,248,231,.8));
+        box-shadow: 0 16px 34px rgba(74, 26, 19, .1), inset 0 0 0 4px rgba(255,255,255,.45);
+      }
+
+      .venue-heading {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 15px;
+        text-align: center;
+      }
+
+      .venue-pin {
+        display: grid;
+        place-items: center;
+        flex: 0 0 44px;
+        width: 44px;
+        height: 44px;
+        border: 1px solid rgba(178, 134, 42, .42);
+        border-radius: 50%;
+        color: var(--deep-red);
+        background: linear-gradient(145deg, #fff7dd, #efd38d);
+      }
+
+      .venue-pin svg { width: 21px; height: 21px; }
+
+      .venue-heading-copy { min-width: 0; }
+
+      .venue-card .venue-name {
+        font-family: var(--font-display);
+        font-weight: 700;
+        letter-spacing: 0;
+        font-size: clamp(1.2rem, 5vw, 1.55rem);
+        line-height: 1.2;
+        color: var(--deep-red);
+        overflow-wrap: anywhere;
+        margin: 0 0 3px;
+      }
+
+      .venue-card .venue-address {
+        margin: 0;
+        font-family: var(--font-body);
+        font-size: 1rem;
+        line-height: 1.35;
+        color: var(--soft-ink);
       }
 
       .map-wrap {
-        border-radius: 18px;
+        position: relative;
+        border-radius: 16px;
         overflow: hidden;
-        border: 1px solid rgba(184, 133, 45, 0.32);
-        box-shadow: 0 8px 18px rgba(74, 26, 19, 0.08);
+        border: 1px solid rgba(128, 83, 31, .24);
+        box-shadow: 0 8px 22px rgba(74, 26, 19, .12);
       }
 
       .map-wrap iframe {
         width: 100%;
-        height: 210px;
+        height: clamp(190px, 55vw, 250px);
         border: 0;
         display: block;
       }
 
       .venue-actions {
-        display: flex;
-        gap: 8px;
-        flex-wrap: wrap;
-        margin-top: 12px;
-      }
-
-      .gallery-rail {
         display: grid;
-        grid-auto-flow: column;
-        grid-auto-columns: 70%;
-        gap: 12px;
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
-        padding-bottom: 8px;
-        scrollbar-width: thin;
+        grid-template-columns: 1fr 1fr;
+        gap: 9px;
+        margin-top: 13px;
       }
 
-      .gallery-rail .photo-card {
-        scroll-snap-align: start;
-        overflow: hidden;
-        border-radius: 18px;
-        border: 1px solid rgba(171, 125, 37, 0.3);
-        background: rgba(255,255,255,0.5);
+      .venue-actions a {
+        justify-content: center;
+        text-align: center;
+        min-width: 0;
+        padding-inline: 8px;
+        font-size: .62rem;
+        letter-spacing: .035em;
       }
 
-      .gallery-rail img {
-        width: 100%;
-        aspect-ratio: 3/4;
-        object-fit: cover;
+      .venue-card .map-note {
+        margin: 10px 0 0;
+        text-align: center;
+        color: var(--soft-ink);
+        font: italic 500 .95rem/1.35 var(--font-body);
       }
 
       .rsvp-box {
@@ -1084,7 +1223,7 @@
 
       .rsvp-box h3 {
         margin: 0 0 8px;
-        font-family: "Cinzel", serif;
+        font-family: var(--font-display);
         color: var(--deep-red);
         font-size: clamp(1.8rem, 7vw, 2.7rem);
         line-height: 1;
@@ -1107,7 +1246,7 @@
       }
 
       .field label {
-        font-family: "Cinzel", serif;
+        font-family: var(--font-label);
         font-size: 0.74rem;
         letter-spacing: 0.12em;
         text-transform: uppercase;
@@ -1123,6 +1262,21 @@
         background: rgba(255,255,255,0.35);
         padding: 12px 14px;
         color: var(--ink);
+        font-family: var(--font-body);
+        font-size: 1.08rem;
+        transition: border-color 180ms ease, box-shadow 180ms ease, background 180ms ease;
+      }
+
+      .field input:focus,
+      .field textarea:focus,
+      .field select:focus {
+        border-color: rgba(169, 117, 42, .8);
+        box-shadow: 0 0 0 3px rgba(201, 161, 59, .16);
+      }
+
+      :where(button, a, input, textarea, select, [tabindex]):focus-visible {
+        outline: 2px solid var(--deep-gold);
+        outline-offset: 3px;
       }
 
       .field textarea {
@@ -1147,7 +1301,7 @@
         background: rgba(255,255,255,0.22);
         cursor: pointer;
         user-select: none;
-        font-family: "Cinzel", serif;
+        font-family: var(--font-label);
         letter-spacing: 0.05em;
         text-transform: uppercase;
         font-size: 0.72rem;
@@ -1232,9 +1386,18 @@
         display: block;
       }
 
+      .js .thank-you.is-visible {
+        animation: confirmation-arrive 620ms cubic-bezier(.2,.75,.25,1) both;
+      }
+
+      @keyframes confirmation-arrive {
+        from { opacity: 0; transform: translateY(10px) scale(.985); box-shadow: 0 0 0 rgba(201,161,59,0); }
+        to { opacity: 1; transform: translateY(0) scale(1); box-shadow: 0 0 24px rgba(201,161,59,.18); }
+      }
+
       .thank-you h4 {
         margin: 0 0 10px;
-        font-family: "Great Vibes", cursive;
+        font-family: var(--font-display);
         font-size: clamp(2.2rem, 10vw, 3rem);
         color: var(--deep-red);
       }
@@ -1269,7 +1432,7 @@
 
       .family-card strong {
         display: block;
-        font-family: "Cinzel", serif;
+        font-family: var(--font-label);
         letter-spacing: 0.08em;
         font-size: 0.76rem;
         text-transform: uppercase;
@@ -1280,7 +1443,7 @@
         margin-top: 6px;
         font-size: 1.3rem;
         color: #fff6e6;
-        font-family: "Cormorant Garamond", serif;
+        font-family: var(--font-body);
       }
 
       .family-card .phone {
@@ -1310,7 +1473,7 @@
       }
 
       .footer-signoff .big-names {
-        font-family: "Great Vibes", cursive;
+        font-family: var(--font-script);
         font-size: clamp(2.4rem, 9vw, 3.8rem);
         background: linear-gradient(180deg, #f3d47b 0%, #e1b865 35%, #c28d40 100%);
         -webkit-background-clip: text;
@@ -1333,7 +1496,7 @@
 
       .footer-signoff .love {
         margin-top: 16px;
-        font-family: "Cinzel", serif;
+        font-family: var(--font-label);
         letter-spacing: 0.18em;
         text-transform: uppercase;
         font-size: 0.72rem;
@@ -1347,13 +1510,47 @@
         margin-top: 18px;
         padding: 10px 16px;
         border-radius: 999px;
+        transition: transform 200ms ease, background 200ms ease;
         background: rgba(255, 247, 220, 0.08);
         border: 1px solid rgba(241, 203, 98, 0.48);
         color: #f4de9b;
-        font-family: "Cinzel", serif;
+        font-family: var(--font-label);
         letter-spacing: 0.08em;
         text-transform: uppercase;
         font-size: 0.68rem;
+      }
+
+      .download-link:hover { transform: translateY(-2px); }
+
+      @media (hover: hover) and (pointer: fine) {
+        .countdown-box,
+        .function-card,
+        .venue-card,
+        .rsvp-box,
+        .family-card,
+        .map-wrap {
+          transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+        }
+
+        .countdown-box:hover,
+        .function-card:hover,
+        .venue-card:hover,
+        .rsvp-box:hover,
+        .family-card:hover,
+        .map-wrap:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 12px 24px rgba(71, 28, 19, .11);
+          border-color: rgba(178, 134, 42, .48);
+        }
+      }
+
+      .mini-button:active,
+      .primary-button:active,
+      .secondary-button:active,
+      .pill-button:active,
+      .uncover-btn:active,
+      .stepper button:active {
+        transform: scale(.97);
       }
 
       .music-toggle {
@@ -1404,335 +1601,280 @@
         100% { height: 15px; opacity: 1; }
       }
 
-      .doors {
+      .mandala-intro {
         position: fixed;
         inset: 0;
         z-index: 50;
-        overflow: hidden;
-        background: #140306;
-        display: grid;
-        place-items: center;
-        cursor: pointer;
-      }
-
-      .door-wash {
-        position: absolute;
-        inset: 0;
-        pointer-events: none;
-        opacity: 0;
-        background: linear-gradient(180deg, rgba(255, 196, 78, 0.18), rgba(255, 208, 110, 0.28));
-        transition: opacity 600ms ease;
-      }
-
-      .door-wrap {
-        position: relative;
-        width: min(92vw, 540px);
-        height: min(88vh, 720px);
-        perspective: 1200px;
-      }
-
-      .door-left,
-      .door-right {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        width: calc(50% - 16px);
-        background: linear-gradient(180deg, rgba(130, 20, 24, 0.92), rgba(77, 8, 14, 0.98));
-        border: 2px solid rgba(191, 153, 69, 0.8);
-        box-shadow: inset 0 0 0 2px rgba(255, 206, 101, 0.18), inset 0 0 28px rgba(0,0,0,0.4);
-      }
-
-      .door-left {
-        left: 0;
-        transform-origin: right center;
-        border-right: 3px solid rgba(186, 134, 33, 0.9);
-        border-radius: 10px 0 0 10px;
-      }
-
-      .door-right {
-        right: 0;
-        transform-origin: left center;
-        border-left: 3px solid rgba(186, 134, 33, 0.9);
-        border-radius: 0 10px 10px 0;
-      }
-
-      .door-face {
-        position: absolute;
-        inset: 0;
-        background:
-          radial-gradient(circle at center, rgba(255, 230, 161, 0.10), transparent 42%),
-          linear-gradient(90deg, rgba(255,255,255,0.04), rgba(0,0,0,0.08));
-      }
-
-      .door-face::before,
-      .door-face::after {
-        content: "";
-        position: absolute;
-        inset: 24px 18px 36px;
-        border-radius: 18px;
-        background:
-          radial-gradient(circle at center, rgba(255, 209, 105, 0.18), transparent 38%),
-          repeating-linear-gradient(90deg, rgba(200,170,96,0.15), rgba(200,170,96,0.15) 2px, transparent 2px, transparent 18px),
-          repeating-linear-gradient(0deg, rgba(255,255,255,0.03), rgba(255,255,255,0.03) 2px, transparent 2px, transparent 14px);
-      }
-
-      .door-face::after {
-        inset: 0;
-        background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(0,0,0,0.26));
-      }
-
-      .door-ornament {
-        position: absolute;
-        width: 130px;
-        height: 130px;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        border-radius: 50%;
-        border: 3px solid rgba(255, 214, 114, 0.6);
-        background: radial-gradient(circle, rgba(255,203,117,0.22), rgba(6,1,1,0.08));
-        box-shadow: 0 0 18px rgba(255,200,93,0.22);
-      }
-
-      .door-ornament::before,
-      .door-ornament::after {
-        content: "";
-        position: absolute;
-        inset: 12px;
-        border-radius: 50%;
-        border: 1px solid rgba(255, 214, 114, 0.4);
-      }
-
-      .door-studs {
-        position: absolute;
-        inset: 20px 20px 38px;
-        display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 12px 10px;
-        place-items: center;
-      }
-
-      .door-studs span {
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        background: radial-gradient(circle at 30% 30%, #ffefb2, #c8992d 42%, #644b16 100%);
-        box-shadow: 0 0 0 2px rgba(255,205,106,0.28);
-      }
-
-      .door-handle {
-        position: absolute;
-        top: 50%;
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        background: radial-gradient(circle at 40% 30%, #f1d28d, #b9852d 62%, #533d18 100%);
-        border: 2px solid rgba(117, 86, 35, 0.8);
-        box-shadow: 0 0 0 4px rgba(255,210,105,0.08);
-      }
-
-      .door-left .door-handle { right: 18px; }
-      .door-right .door-handle { left: 18px; }
-
-      .door-toran {
-        position: absolute;
-        left: 50%;
-        top: 45px;
-        width: min(76vw, 360px);
-        height: 72px;
-        transform: translateX(-50%);
-      }
-
-      .toran-top {
-        position: absolute;
-        inset: 0;
-        display: flex;
-        justify-content: center;
-        gap: 7px;
-      }
-
-      .flower {
-        width: 24px;
-        height: 24px;
-        border-radius: 50%;
-        background: radial-gradient(circle at center, #f5df9d 0%, #f0b22f 25%, #cd7d12 69%, rgba(174, 103, 17, 0.8) 100%);
-        box-shadow: inset 0 0 0 3px rgba(255,255,255,0.22);
-        position: relative;
-      }
-
-      .flower::before,
-      .flower::after {
-        content: "";
-        position: absolute;
-        inset: -7px;
-        border-radius: 50%;
-        background: radial-gradient(circle, rgba(255, 203, 120, 0.12), rgba(0,0,0,0.1));
-      }
-
-      .flower::before { transform: scale(1.15); }
-      .flower::after { transform: scale(0.8); }
-
-      .leaf {
-        width: 16px;
-        height: 30px;
-        background: linear-gradient(180deg, #4b9647, #2e7d32);
-        border-radius: 70% 30% 65% 35%;
-        transform: rotate(16deg);
-        position: relative;
-      }
-
-      .leaf::after {
-        content: "";
-        position: absolute;
-        inset: 8px 6px 8px 6px;
-        border-left: 1px solid rgba(255,255,255,0.25);
-      }
-
-      .leaf:nth-child(odd) { transform: rotate(-14deg); }
-
-      .door-bell {
-        position: absolute;
-        left: 50%;
-        top: 4px;
-        transform: translateX(-50%);
-        width: 22px;
-        height: 26px;
-        border-radius: 50% 50% 40% 40%;
-        background: radial-gradient(circle at 30% 30%, #f6d380, #c79b3d 45%, #5d3f12 100%);
-        box-shadow: 0 0 0 3px rgba(205, 160, 64, 0.28);
-      }
-
-      .door-bell::before {
-        content: "";
-        position: absolute;
-        left: 8px;
-        right: 8px;
-        bottom: -8px;
-        height: 12px;
-        border-radius: 0 0 10px 10px;
-        background: linear-gradient(180deg, rgba(210,164,76,0.8), rgba(116,78,24,0.9));
-      }
-
-      .door-medallion {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        width: 110px;
-        height: 110px;
-        transform: translate(-50%, -50%);
-        border-radius: 50%;
-        background: radial-gradient(circle at 40% 30%, rgba(255,246,206,0.95), #d0a64d 30%, #9f720f 60%, #533311 100%);
-        box-shadow: inset 0 0 0 8px rgba(255, 222, 134, 0.6), 0 0 28px rgba(255, 214, 110, 0.3);
-        display: grid;
-        place-items: center;
-      }
-
-      .door-medallion .seal {
-        width: 52px;
-        height: 52px;
-        display: grid;
-        place-items: center;
-        border-radius: 50%;
-        font-size: 2.5rem;
-        color: rgba(87, 18, 10, 0.9);
-        background: radial-gradient(circle at 35% 35%, rgba(255,255,255,0.88), rgba(238, 202, 101, 0.42) 35%, rgba(125, 77, 12, 0.38) 100%);
-        box-shadow: inset 0 0 18px rgba(255,255,255,0.3);
-      }
-
-      .door-diya {
-        position: absolute;
-        left: 50%;
-        bottom: 76px;
-        transform: translateX(-50%);
-        width: 80px;
-        height: 60px;
-        display: grid;
-        place-items: center;
-      }
-
-      .diya-base {
-        position: absolute;
-        bottom: 0;
-        width: 58px;
-        height: 22px;
-        border-radius: 50%;
-        background: radial-gradient(circle at center, #f6d594, #8b5d19 90%);
-        box-shadow: 0 0 15px rgba(255, 194, 74, 0.32);
-      }
-
-      .diya-flame {
-        position: absolute;
-        width: 18px;
-        height: 38px;
-        bottom: 16px;
-        background: linear-gradient(180deg, #fffdd7, #ffd36a 25%, #f7a800 72%, rgba(255, 115, 0, 0.7) 100%);
-        clip-path: polygon(50% 0%, 62% 18%, 78% 26%, 100% 52%, 72% 100%, 28% 100%, 0% 54%, 22% 24%, 38% 18%);
-        filter: drop-shadow(0 0 12px rgba(255, 196, 84, 0.8));
-        transform-origin: bottom center;
-        animation: flicker 0.8s ease-in-out infinite alternate;
-      }
-
-      @keyframes flicker {
-        0% { transform: scaleY(0.9) rotate(-4deg); }
-        50% { transform: scaleY(1.1) rotate(3deg); }
-        100% { transform: scaleY(0.96) rotate(-2deg); }
-      }
-
-      .door-copy {
-        position: absolute;
-        left: 50%;
-        bottom: 20px;
-        transform: translateX(-50%);
-        text-align: center;
-        color: #f0d37d;
-        width: min(70vw, 280px);
-      }
-
-      .door-copy .hint {
-        font-family: "Cinzel", serif;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        font-size: 0.7rem;
-      }
-
-      .door-copy .guest {
-        margin-top: 8px;
-        font-family: "Great Vibes", cursive;
-        font-size: clamp(2.2rem, 7vw, 3.1rem);
-        line-height: 1;
-      }
-
-      .door-copy .guest strong {
-        font-weight: 400;
-      }
-
-      .skip-button {
-        position: absolute;
-        top: max(18px, env(safe-area-inset-top));
-        right: 16px;
-        z-index: 60;
         display: none;
-        min-height: 40px;
-        padding: 8px 14px;
+        place-items: center;
+        overflow: hidden;
+        padding: max(24px, var(--safe-top)) 20px max(24px, var(--safe-bottom));
+        color: #fff4d5;
+        text-align: center;
+        background:
+          radial-gradient(ellipse at 50% 48%, rgba(180, 105, 35, .25), transparent 48%),
+          radial-gradient(ellipse at 50% 100%, rgba(126, 47, 28, .24), transparent 55%),
+          linear-gradient(145deg, #26050b, #4a0710 54%, #170307);
+        opacity: 1;
+        visibility: visible;
+        transition: opacity 850ms ease, visibility 850ms ease;
+      }
+
+      .js .mandala-intro { display: grid; }
+
+      .mandala-intro::before,
+      .mandala-intro::after {
+        content: "";
+        position: absolute;
+        width: min(110vw, 760px);
+        aspect-ratio: 1;
+        border-radius: 50%;
+        pointer-events: none;
+      }
+
+      .mandala-intro::before {
+        border: 1px solid rgba(226, 185, 97, .12);
+        box-shadow: 0 0 90px rgba(232, 163, 70, .12), inset 0 0 90px rgba(232, 163, 70, .08);
+        animation: portal-breathe 5s ease-in-out infinite;
+      }
+
+      .mandala-intro::after {
+        width: min(72vw, 500px);
+        border: 1px solid rgba(226, 185, 97, .09);
+      }
+
+      .mandala-stage {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        justify-items: center;
+        align-content: center;
+        width: min(100%, 600px);
+        min-height: min(78vh, 680px);
+        min-height: min(78svh, 680px);
+      }
+
+      .mandala-art {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: min(82vw, 430px);
+        max-height: 70svh;
+        overflow: visible;
+        transform: translate(-50%, -54%);
+        color: #edc873;
+        opacity: .78;
+        filter: drop-shadow(0 0 14px rgba(246, 190, 89, .28));
+      }
+
+      .mandala-lines {
+        transform-box: fill-box;
+        transform-origin: center;
+        opacity: .16;
+        transform: scale(.72) rotate(-18deg);
+        transition: transform 2.4s cubic-bezier(.2,.7,.2,1), opacity 1.2s ease;
+      }
+
+      .mandala-lines circle,
+      .mandala-lines path,
+      .mandala-lines polygon {
+        fill: none;
+        stroke: currentColor;
+        stroke-width: .8;
+        vector-effect: non-scaling-stroke;
+      }
+
+      .mandala-lines .petal-ring { stroke-width: 1.15; }
+      .mandala-lines .fine-ring { opacity: .55; }
+      .mandala-om {
+        fill: #f7dd9c;
+        font: 34px "Yatra One", "Noto Sans Devanagari", cursive;
+        text-anchor: middle;
+        dominant-baseline: central;
+        filter: drop-shadow(0 0 10px rgba(255, 216, 132, .8));
+      }
+
+      .portal-copy {
+        position: relative;
+        z-index: 2;
+        display: grid;
+        justify-items: center;
+        width: min(100%, 520px);
+        margin-top: min(47vh, 320px);
+      }
+
+      .portal-eyebrow {
+        position: absolute;
+        top: calc(50% - 88px);
+        left: 50%;
+        z-index: 3;
+        margin: 0;
+        padding: 6px 13px;
+        border: 1px solid rgba(238, 200, 116, .44);
         border-radius: 999px;
-        border: 1px solid rgba(236, 210, 126, 0.75);
-        background: rgba(59, 9, 10, 0.46);
-        color: #f6d881;
-        font-family: "Cinzel", serif;
-        letter-spacing: 0.08em;
+        color: #ffe8ad;
+        background: rgba(45, 5, 10, .82);
+        box-shadow: 0 4px 18px rgba(20, 0, 3, .28);
+        font: 600 clamp(1.05rem, 4.5vw, 1.35rem)/1.25 "Yatra One", "Tiro Devanagari Hindi", serif;
+        letter-spacing: .025em;
+        white-space: nowrap;
+        transform: translateX(-50%);
+        text-shadow: 0 1px 8px rgba(245, 192, 92, .35);
+      }
+
+      .portal-heading {
+        margin: 0;
+        color: #f7e4b5;
+        font: 500 clamp(1.6rem, 7vw, 2.5rem)/1.05 var(--font-display);
+        letter-spacing: .015em;
+        text-wrap: balance;
+        text-shadow: 0 2px 24px rgba(242, 185, 88, .22);
+      }
+
+      .portal-names {
+        max-width: 100%;
+        margin: 0;
+        color: #f3d27f;
+        font: 400 clamp(2.2rem, 9.5vw, 4.5rem)/.98 var(--font-script);
+        opacity: 0;
+        transform: translateY(16px) scale(.97);
+        transition: opacity 850ms ease, transform 1s cubic-bezier(.2,.75,.25,1);
+        text-wrap: balance;
+        text-shadow: 0 4px 28px rgba(241, 172, 65, .28);
+      }
+
+      .portal-names span { white-space: nowrap; }
+      .portal-names .ampersand {
+        display: inline-block;
+        padding: 0 .12em;
+        color: #fff0c0;
+        font: 500 .62em/1 var(--font-display);
+        vertical-align: .12em;
+      }
+
+      .portal-start {
+        min-height: 48px;
+        margin-top: 25px;
+        padding: 12px 24px;
+        border: 1px solid rgba(239, 205, 128, .72);
+        border-radius: 999px;
+        color: #fff1cb;
+        background: rgba(47, 5, 12, .52);
+        box-shadow: 0 0 28px rgba(223, 165, 72, .13), inset 0 0 18px rgba(255, 220, 143, .06);
+        font: 600 .72rem/1.2 var(--font-label);
+        letter-spacing: .18em;
         text-transform: uppercase;
-        font-size: 0.7rem;
+        cursor: pointer;
+        transition: background 220ms ease, box-shadow 220ms ease, opacity 350ms ease, transform 350ms ease;
+      }
+
+      .portal-start:hover,
+      .portal-start:focus-visible {
+        outline: 2px solid #f3d27f;
+        outline-offset: 4px;
+        background: rgba(101, 39, 27, .72);
+        box-shadow: 0 0 34px rgba(243, 193, 91, .3);
+      }
+
+      .portal-start:active { transform: scale(.97); }
+
+      .portal-skip {
+        position: absolute;
+        z-index: 4;
+        top: max(18px, env(safe-area-inset-top));
+        right: max(18px, env(safe-area-inset-right));
+        min-height: 42px;
+        padding: 9px 16px;
+        border: 1px solid rgba(239, 205, 128, .58);
+        border-radius: 999px;
+        color: #f8dfa4;
+        background: rgba(35, 4, 10, .6);
+        font: 600 .68rem/1 var(--font-label);
+        letter-spacing: .12em;
+        text-transform: uppercase;
         cursor: pointer;
       }
 
-      .skip-button.visible { display: inline-flex; }
+      .portal-skip[hidden] { display: none; }
+      .portal-skip:focus-visible { outline: 2px solid #f3d27f; outline-offset: 3px; }
 
-      .hidden-content {
+      .portal-flare {
+        position: absolute;
+        z-index: 1;
+        top: 50%;
+        left: 50%;
+        width: min(20vw, 100px);
+        aspect-ratio: 1;
+        border-radius: 50%;
+        background: #fff4cf;
+        box-shadow: 0 0 28px 12px rgba(255, 209, 116, .65), 0 0 110px 52px rgba(240, 153, 53, .35);
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(.2);
+        pointer-events: none;
+      }
+
+      .mandala-intro.is-started .mandala-lines {
+        opacity: 1;
+        transform: scale(1.12) rotate(28deg);
+      }
+
+      .mandala-intro.is-started .portal-heading,
+      .mandala-intro.is-started .portal-start {
+        opacity: 0;
+        transform: translateY(-8px);
+        pointer-events: none;
+      }
+
+      .mandala-intro.is-names-revealed .portal-names {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+
+      .mandala-intro.is-portal-opening .portal-flare {
+        animation: portal-flash 1.15s cubic-bezier(.2,.75,.25,1) both;
+      }
+
+      .mandala-intro.is-complete {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+
+      .mandala-intro.is-complete .mandala-lines { transform: scale(1.3) rotate(45deg); }
+
+      @keyframes portal-breathe {
+        0%, 100% { transform: scale(.97); opacity: .55; }
+        50% { transform: scale(1.03); opacity: .95; }
+      }
+
+      @keyframes portal-flash {
+        0% { opacity: 0; transform: translate(-50%, -50%) scale(.2); }
+        42% { opacity: .95; transform: translate(-50%, -50%) scale(1.1); }
+        100% { opacity: 0; transform: translate(-50%, -50%) scale(14); }
+      }
+
+      @media (max-width: 380px) {
+        .mandala-intro { padding-inline: 14px; }
+        .mandala-art { width: min(88vw, 360px); }
+        .portal-copy { margin-top: min(43vh, 270px); }
+        .portal-names { font-size: clamp(2rem, 9vw, 2.8rem); }
+      }
+
+      @media (max-height: 640px) and (orientation: landscape) {
+        .mandala-stage { min-height: 100%; }
+        .mandala-art { width: min(54vh, 310px); }
+        .portal-copy { margin-top: min(49vh, 245px); }
+        .portal-heading { font-size: clamp(1.35rem, 5vh, 2rem); }
+        .portal-names { font-size: clamp(2rem, 8vh, 3rem); }
+        .portal-start { margin-top: 12px; }
+      }
+
+      .js .hidden-content {
         opacity: 0;
         visibility: hidden;
       }
 
-      .hidden-content.visible {
+      .js .hidden-content.visible {
         opacity: 1;
         visibility: visible;
       }
@@ -1783,11 +1925,13 @@
 
         .section-header h2,
         .section-header h3,
+        .portal-heading,
         .panel-copy,
         .parents-line,
         .wedding-date-inline,
         .celebration-line,
         .venue-name,
+        .venue-card .venue-name,
         .function-name,
         .rsvp-box h3,
         .family-card strong,
@@ -1818,7 +1962,7 @@
         .event-check,
         .rsvp-box,
         .function-card,
-        .venue-box,
+        .venue-card,
         .save-date .leaf-card,
         .paper-wrap,
         .jharokha-panel,
@@ -1836,6 +1980,7 @@
         .footer-signoff .deva-tag,
         .function-meta,
         .venue-address,
+        .venue-card .venue-address,
         .rsvp-box p,
         .field input,
         .field textarea,
@@ -1864,10 +2009,20 @@
           scroll-behavior: auto !important;
         }
       }
+
+      @media (max-width: 360px) {
+        .countdown-boxes { gap: 6px; }
+        .countdown-box { min-height: 96px; padding-inline: 3px; }
+        .countdown-value { font-size: 1.65rem; }
+        .countdown-label { font-size: .61rem; letter-spacing: .1em; }
+        .function-card { margin-left: 34px; padding-inline: 12px; }
+        .function-row { gap: 9px; }
+        .function-icon { width: 46px; height: 46px; }
+      }
     </style>
   </head>
   <body>
-    <button id="musicToggle" class="music-toggle" aria-label="Toggle music" type="button">
+    <button id="musicToggle" class="music-toggle" aria-label="Toggle music" type="button" aria-hidden="true" inert>
       <span class="note-icon" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M10 18V6.5L19 4v11.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1881,60 +2036,41 @@
       </span>
     </button>
 
-    <div id="doors" class="doors" aria-hidden="true">
-      <div id="doorWash" class="door-wash"></div>
-      <button id="skipButton" class="skip-button" type="button">Skip</button>
-      <div class="door-wrap">
-        <div id="doorLeft" class="door-left">
-          <div class="door-face"></div>
-          <div class="door-studs"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
-          <div class="door-ornament"></div>
-          <div class="door-handle"></div>
-        </div>
-        <div id="doorRight" class="door-right">
-          <div class="door-face"></div>
-          <div class="door-studs"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
-          <div class="door-ornament"></div>
-          <div class="door-handle"></div>
-        </div>
-        <div class="door-toran" aria-hidden="true">
-          <div class="toran-top">
-            <span class="flower"></span>
-            <span class="leaf"></span>
-            <span class="flower"></span>
-            <span class="leaf"></span>
-            <span class="flower"></span>
-            <span class="leaf"></span>
-            <span class="flower"></span>
-            <span class="leaf"></span>
-            <span class="flower"></span>
-            <span class="leaf"></span>
-            <span class="flower"></span>
-            <span class="leaf"></span>
-            <span class="flower"></span>
-            <span class="leaf"></span>
-            <span class="flower"></span>
-            <span class="leaf"></span>
-            <span class="flower"></span>
-            <span class="leaf"></span>
-            <span class="flower"></span>
-            <span class="leaf"></span>
-          </div>
-          <div class="door-bell" id="doorBell"></div>
-        </div>
-        <div class="door-medallion" aria-hidden="true">
-          <div class="seal" id="medallionSeal">&#x950;</div>
-        </div>
-        <div class="door-diya" aria-hidden="true">
-          <div class="diya-base"></div>
-          <div class="diya-flame" id="diyaFlame"></div>
-        </div>
-        <div class="door-copy" id="doorCopy">
-          <div class="hint">Tap to open</div>
-          <div class="guest" id="doorGuestName"><strong>Specially for our dear guest</strong></div>
+    <section id="mandalaIntro" class="mandala-intro" aria-label="Wedding invitation opening">
+      <button id="portalSkip" class="portal-skip" type="button" hidden>Skip intro</button>
+      <div class="mandala-stage">
+        <svg class="mandala-art" viewBox="0 0 400 400" role="img" aria-label="A glowing gold mandala">
+          <g class="mandala-lines">
+            <circle class="fine-ring" cx="200" cy="200" r="184" />
+            <circle cx="200" cy="200" r="166" stroke-dasharray="1 5" />
+            <circle class="petal-ring" cx="200" cy="200" r="145" stroke-dasharray="3 3" />
+            <circle cx="200" cy="200" r="124" />
+            <circle class="fine-ring" cx="200" cy="200" r="104" stroke-dasharray="2 5" />
+            <circle cx="200" cy="200" r="78" />
+            <circle cx="200" cy="200" r="56" stroke-dasharray="1 4" />
+            <polygon points="200,38 229,171 362,200 229,229 200,362 171,229 38,200 171,171" />
+            <polygon class="fine-ring" points="200,63 238,162 337,200 238,238 200,337 162,238 63,200 162,162" />
+            <path class="petal-ring" d="M200 63 C222 111 239 151 200 200 C161 151 178 111 200 63Z" />
+            <path class="petal-ring" d="M337 200 C289 222 249 239 200 200 C249 161 289 178 337 200Z" />
+            <path class="petal-ring" d="M200 337 C178 289 161 249 200 200 C239 249 222 289 200 337Z" />
+            <path class="petal-ring" d="M63 200 C111 178 151 161 200 200 C151 239 111 222 63 200Z" />
+            <path class="petal-ring" d="M103 103 C151 120 184 150 200 200 C150 184 120 151 103 103Z" />
+            <path class="petal-ring" d="M297 103 C280 151 250 184 200 200 C216 150 249 120 297 103Z" />
+            <path class="petal-ring" d="M297 297 C249 280 216 250 200 200 C250 216 280 249 297 297Z" />
+            <path class="petal-ring" d="M103 297 C120 249 150 216 200 200 C184 250 151 280 103 297Z" />
+            <circle cx="200" cy="200" r="33" />
+          </g>
+          <text class="mandala-om" x="200" y="201" aria-hidden="true">&#x950;</text>
+        </svg>
+        <span class="portal-flare" aria-hidden="true"></span>
+        <p class="portal-eyebrow" lang="hi">शुभ विवाह</p>
+        <div class="portal-copy">
+          <h1 id="portalHeading" class="portal-heading">A sacred celebration awaits</h1>
+          <p id="portalNames" class="portal-names" aria-live="polite" aria-hidden="true"><span>Dewank</span><span class="ampersand">&amp;</span><span>Anuradha</span></p>
+          <button id="portalStart" class="portal-start" type="button" aria-describedby="portalHeading">Tap to begin</button>
         </div>
       </div>
-    </div>
+    </section>
 
     <div class="page-shell hidden-content" id="pageContent">
       <button id="musicToggleMain" class="music-toggle visible" aria-label="Toggle music" type="button">
@@ -1957,14 +2093,14 @@
           <div class="hero-visual">
             <div class="jharokha-frame">
               <div class="frame-inner">
-                <video id="heroVideo" playsinline muted loop preload="auto" poster="card.jpg" aria-label="Wedding video">
+                <video id="heroVideo" playsinline muted loop preload="auto" poster="hero-poster.jpg" aria-label="Wedding ceremony video">
                   <source src="hero.mp4" type="video/mp4" />
                 </video>
               </div>
             </div>
           </div>
           <div class="hero-names reveal-words" aria-live="polite">
-            <h1>Dewank & Anuradha</h1>
+            <h1 id="heroTitle" tabindex="-1">Dewank &amp; Anuradha</h1>
           </div>
           <div class="hero-date">Wednesday, 25 November 2026</div>
           <div class="scroll-prompt">Scroll down <span class="chevron">↓</span></div>
@@ -2132,16 +2268,25 @@
           </div>
         </section>
 
-        <section class="paper-section section venue-box reveal-panel">
+        <section class="paper-section section venue-section reveal-panel">
           <div class="section-header">
+            <p class="venue-kicker">A place to gather &amp; celebrate</p>
             <h2>Main venue</h2>
           </div>
-          <div class="venue-box">
-            <p class="venue-name">Shukla Family Residence</p>
-            <p class="venue-address">Pune, Maharashtra, India</p>
+          <div class="venue-card">
+            <div class="venue-heading">
+              <span class="venue-pin" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19 10.2c0 5.1-7 11-7 11s-7-5.9-7-11a7 7 0 1 1 14 0Z" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="10" r="2.4" stroke="currentColor" stroke-width="1.7"/></svg>
+              </span>
+              <div class="venue-heading-copy">
+                <p class="venue-name">Shukla Family Residence</p>
+                <p class="venue-address">Pune, Maharashtra, India</p>
+              </div>
+            </div>
             <div class="map-wrap">
               <iframe title="Wedding venue map" loading="lazy" src="https://maps.google.com/maps?q=Pune%2C%20Maharashtra%2C%20India&z=12&hl=en&output=embed"></iframe>
             </div>
+            <p class="map-note">We look forward to welcoming you.</p>
             <div class="venue-actions">
               <a class="primary-button" href="https://www.google.com/maps/dir/?api=1&destination=24%2C%20Heritage%20Avenue%2C%20Pune%2C%20Maharashtra" target="_blank" rel="noreferrer">Get directions</a>
               <a class="secondary-button" href="https://maps.google.com/?q=18.520430,73.856743" target="_blank" rel="noreferrer">Open in Google Maps</a>
@@ -2228,15 +2373,7 @@
 
       const setGuestText = () => {
         const guestText = displayName === 'our dear guest' ? 'our dear guest' : displayName;
-        const doorName = document.getElementById('doorGuestName');
         const greetingName = document.getElementById('guestGreetingName');
-        if (doorName) {
-          if (guestText === 'our dear guest') {
-            doorName.innerHTML = '<strong>Specially for our dear guest</strong>';
-          } else {
-            doorName.innerHTML = '<strong>Specially for ' + guestText + '</strong>';
-          }
-        }
         if (greetingName) {
           if (guestText === 'our dear guest') {
             greetingName.textContent = 'Namaste';
@@ -2259,13 +2396,10 @@
       const heroVideo = document.getElementById('heroVideo');
       const musicToggle = document.getElementById('musicToggleMain');
       const musicToggleFixed = document.getElementById('musicToggle');
-      const doors = document.getElementById('doors');
-      const skipButton = document.getElementById('skipButton');
-      const doorLeft = document.getElementById('doorLeft');
-      const doorRight = document.getElementById('doorRight');
-      const doorWash = document.getElementById('doorWash');
-      const doorBell = document.getElementById('doorBell');
-      const diyaFlame = document.getElementById('diyaFlame');
+      const mandalaIntro = document.getElementById('mandalaIntro');
+      const portalStart = document.getElementById('portalStart');
+      const portalSkip = document.getElementById('portalSkip');
+      const portalNames = document.getElementById('portalNames');
       const countdownStatus = document.getElementById('countdownStatus');
       const form = document.getElementById('rsvpForm');
       const thankYouPanel = document.getElementById('thankYouPanel');
@@ -2276,9 +2410,9 @@
         musicPlaying: false,
         introStarted: false,
         introDone: false,
+        introTimers: [],
         audioCtx: null,
         track: null,
-        opening: null,
         chime: null,
         reducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
         count: 2,
@@ -2288,6 +2422,8 @@
       };
 
       document.documentElement.classList.add('js');
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+      window.scrollTo(0, 0);
       if (window.CSS && typeof CSS.registerProperty === 'function') {
         document.documentElement.classList.add('supports-property');
       }
@@ -2317,7 +2453,6 @@
       function ensureAudio() {
         const files = [
           { name: 'music', src: 'music.mp3', loop: true },
-          { name: 'opening', src: 'opening.mp3', loop: false },
           { name: 'chime', src: 'chime.mp3', loop: false }
         ];
         files.forEach(({ name, src, loop }) => {
@@ -2360,62 +2495,6 @@
         oscillator.stop(ctx.currentTime + when + duration + 0.06);
       }
 
-      function synthBellSequence() {
-        if (!state.audioCtx) state.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        const ctx = state.audioCtx;
-        const now = ctx.currentTime + 0.05;
-        const partials = [523.25, 659.25, 783.99, 1046.5];
-        partials.forEach((freq, idx) => {
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
-          osc.type = 'triangle';
-          osc.frequency.value = freq;
-          gain.gain.setValueAtTime(0.001, now + idx * 0.04);
-          gain.gain.exponentialRampToValueAtTime(0.22, now + idx * 0.04 + 0.04);
-          gain.gain.exponentialRampToValueAtTime(0.0001, now + idx * 0.04 + 1.2);
-          osc.connect(gain);
-          gain.connect(ctx.destination);
-          osc.start(now + idx * 0.04);
-          osc.stop(now + idx * 0.04 + 1.25);
-        });
-      }
-
-      function synthRattle() {
-        if (!state.audioCtx) state.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        const ctx = state.audioCtx;
-        const now = ctx.currentTime + 0.03;
-        const noiseBuffer = ctx.createBuffer(1, 4096, ctx.sampleRate);
-        const data = noiseBuffer.getChannelData(0);
-        for (let i=0; i<data.length; i++) data[i] = (Math.random()*2-1) * 0.4;
-        const source = ctx.createBufferSource();
-        source.buffer = noiseBuffer;
-        const filter = ctx.createBiquadFilter();
-        filter.type = 'bandpass';
-        filter.frequency.value = 800;
-        const gain = ctx.createGain();
-        gain.gain.setValueAtTime(0.001, now);
-        gain.gain.exponentialRampToValueAtTime(0.15, now + 0.1);
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.2);
-        source.connect(filter);
-        filter.connect(gain);
-        gain.connect(ctx.destination);
-        source.start(now);
-        source.stop(now + 1.2);
-      }
-
-      function startOpeningAudio() {
-        if (state.opening && !state.opening.paused) return;
-        if (state.opening) {
-          state.opening.currentTime = 0;
-          state.opening.play().catch(() => {});
-          return;
-        }
-        if (state.audioCtx) {
-          synthBellSequence();
-          synthRattle();
-        }
-      }
-
       function playChime() {
         if (state.chime && state.chime.src && state.chime.src !== window.location.href) {
           state.chime.currentTime = 0;
@@ -2446,33 +2525,6 @@
         });
       }
 
-      function startMusic() {
-        if (!state.track || !state.musicReady) return;
-        state.track.volume = 0.25;
-        state.track.play().catch(() => {});
-        setMusicToggleState(true);
-      }
-
-      function stopMusic() {
-        if (state.track) {
-          state.track.pause();
-        }
-        setMusicToggleState(false);
-      }
-
-      function unlockPhoneAudio() {
-        const unlocks = [state.music, state.chime];
-        unlocks.forEach((audio) => {
-          if (!audio) return;
-          audio.muted = true;
-          audio.volume = 0.001;
-          audio.play().catch(() => {});
-          audio.pause();
-          audio.currentTime = 0;
-          audio.muted = false;
-        });
-      }
-
       function revealPage() {
         if (pageContent) {
           pageContent.classList.add('visible');
@@ -2495,8 +2547,8 @@
       function showHeroPoster() {
         if (!heroVideo || !heroVideo.isConnected) return;
         const fallback = document.createElement('img');
-        fallback.src = 'card.jpg';
-        fallback.alt = 'Wedding invitation artwork';
+        fallback.src = 'hero-poster.jpg';
+        fallback.alt = 'The couple celebrating their wedding ceremony';
         fallback.className = 'hero-poster-fallback';
         heroVideo.replaceWith(fallback);
       }
@@ -2528,176 +2580,55 @@
         videoObserver.observe(heroVideo);
       }
 
-      function handleIntroSkip() {
+      function finishIntro() {
         if (state.introDone) return;
         state.introDone = true;
-        skipButton?.classList.remove('visible');
-        doors.style.display = 'none';
+        state.introTimers.forEach(clearTimeout);
+        state.introTimers = [];
+        portalSkip.hidden = true;
+        mandalaIntro.classList.add('is-complete');
+        mandalaIntro.setAttribute('aria-hidden', 'true');
+        window.scrollTo(0, 0);
         document.body.style.overflow = 'auto';
         document.documentElement.style.overflow = 'auto';
-        state.track?.play().catch(() => {});
-        setMusicToggleState(true);
+        musicToggleFixed?.removeAttribute('inert');
+        musicToggleFixed?.setAttribute('aria-hidden', 'false');
         revealPage();
+        document.getElementById('heroTitle')?.focus({ preventScroll: true });
       }
 
-      function runDoorSequence() {
-        if (state.introStarted) return;
+      function startMandalaIntro() {
+        if (state.introStarted || state.introDone) return;
         state.introStarted = true;
-        skipButton?.classList.add('visible');
         if (state.reducedMotion) {
-          setTimeout(() => {
-            doorWash.style.opacity = '0.85';
-            doors.style.opacity = '0';
-            doors.style.transition = 'opacity 650ms ease';
-            setTimeout(() => {
-              doors.style.display = 'none';
-              document.body.style.overflow = 'auto';
-              revealPage();
-              startMusic();
-            }, 700);
-          }, 150);
-          state.introDone = true;
+          finishIntro();
           return;
         }
-
-        unlockPhoneAudio();
-        startOpeningAudio();
-
-        if (diyaFlame) {
-          diyaFlame.style.transform = 'scale(1.26)';
-          diyaFlame.style.filter = 'drop-shadow(0 0 18px rgba(255,180,45,0.9))';
-        }
-
-        const light = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-        light.setAttribute('width', '160');
-        light.setAttribute('height', '160');
-        light.setAttribute('viewBox', '0 0 160 160');
-        light.style.position = 'absolute';
-        light.style.left = '50%';
-        light.style.top = '50%';
-        light.style.transform = 'translate(-50%, -50%)';
-        light.style.overflow = 'visible';
-        light.style.pointerEvents = 'none';
-        light.style.opacity = '0';
-
-        const ring = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-        ring.setAttribute('cx', '80');
-        ring.setAttribute('cy', '80');
-        ring.setAttribute('r', '58');
-        ring.setAttribute('fill', 'none');
-        ring.setAttribute('stroke', 'rgba(255,214,120,0.78)');
-        ring.setAttribute('stroke-width', '3');
-        ring.setAttribute('stroke-linecap', 'round');
-        ring.setAttribute('stroke-dasharray', '26 74');
-        ring.setAttribute('pathLength', '100');
-        light.appendChild(ring);
-
-        const arcs = ['3.5 96.5', '11 89', '26 74'];
-        arcs.forEach((pattern, idx) => {
-          const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-          circle.setAttribute('cx', '80');
-          circle.setAttribute('cy', '80');
-          circle.setAttribute('r', 56 + idx * 2);
-          circle.setAttribute('fill', 'none');
-          circle.setAttribute('stroke', idx === 0 ? '#ffffff' : idx === 1 ? '#f5ddb6' : '#d9a748');
-          circle.setAttribute('stroke-width', idx === 2 ? '3' : '2');
-          circle.setAttribute('stroke-linecap', 'round');
-          circle.setAttribute('stroke-dasharray', pattern);
-          circle.setAttribute('pathLength', '100');
-          circle.setAttribute('stroke-dashoffset', '0');
-          circle.style.filter = 'drop-shadow(0 0 12px rgba(255, 210, 110, 0.65))';
-          light.appendChild(circle);
-        });
-
-        const glow = document.createElementNS('http://www.w3.org/2000/svg', 'filter');
-        glow.setAttribute('id', 'goldGlow');
-        glow.innerHTML = '<feGaussianBlur stdDeviation="2.5" result="blur" /><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>';
-        light.appendChild(glow);
-
-        const medallion = document.querySelector('.door-medallion');
-        if (medallion) medallion.appendChild(light);
-
-        const comet = {
-          progress: 0,
-          sparks: []
-        };
-
-        const handle = () => {
-          const start = performance.now();
-          const tick = (now) => {
-            const elapsed = now - start;
-            if (elapsed <= 1700) {
-              const p = Math.min(elapsed / 1700, 1);
-              const dash = 100;
-              const circles = light.querySelectorAll('circle');
-              circles.forEach((circle, idx) => {
-                const base = 100 - (idx + 1) * 16;
-                const ad = Math.max(0, base * p);
-                circle.style.strokeDashoffset = String(ad);
-              });
-              ring.setAttribute('stroke-opacity', String(Math.min(1, p * 0.9)));
-              light.style.opacity = String(Math.min(1, p * 1.2));
-            }
-            if (elapsed >= 1600 && elapsed < 1700) {
-              doorBell.style.transform = 'translateX(-50%) rotate(18deg)';
-              setTimeout(() => {
-                doorBell.style.transform = 'translateX(-50%) rotate(-18deg)';
-              }, 180);
-              setTimeout(() => {
-                doorBell.style.transform = 'translateX(-50%) rotate(8deg)';
-              }, 360);
-              if (state.audioCtx) synthBellSequence();
-            }
-            if (elapsed >= 2200 && elapsed <= 4200) {
-              const ringAlpha = Math.max(0, 1 - Math.abs(elapsed - 3200) / 1100);
-              ring.setAttribute('stroke-opacity', String(ringAlpha));
-            }
-            if (elapsed >= 3800 && elapsed <= 5800) {
-              const open = Math.min((elapsed - 3800) / 2000, 1);
-              const leftTransform = -105 * open;
-              const rightTransform = 105 * open;
-              doorLeft.style.transform = `rotateY(${leftTransform}deg) translateZ(0)`;
-              doorRight.style.transform = `rotateY(${rightTransform}deg) translateZ(0)`;
-              doorWash.style.opacity = String(Math.min(0.78, open * 1.05));
-            }
-            if (elapsed >= 5600) {
-              doorWash.style.opacity = '0.9';
-              handleIntroComplete();
-              return;
-            }
-            requestAnimationFrame(tick);
-          };
-          requestAnimationFrame(tick);
-        };
-
-        handle();
-      }
-
-      function handleIntroComplete() {
-        if (state.introDone) return;
-        state.introDone = true;
-        skipButton?.classList.remove('visible');
-        doors.style.opacity = '1';
-        setTimeout(() => {
-          doors.style.transition = 'opacity 0.9s ease';
-          doors.style.opacity = '0';
-          setTimeout(() => {
-            if (doors) doors.style.display = 'none';
-            document.body.style.overflow = 'auto';
-            document.documentElement.style.overflow = 'auto';
-            revealPage();
-            startMusic();
-          }, 950);
-        }, 350);
+        mandalaIntro.classList.add('is-started');
+        portalStart.disabled = true;
+        portalSkip.hidden = false;
+        portalSkip.focus({ preventScroll: true });
+        state.introTimers.push(setTimeout(() => {
+          portalNames.setAttribute('aria-hidden', 'false');
+          mandalaIntro.classList.add('is-names-revealed');
+        }, 760));
+        state.introTimers.push(setTimeout(() => {
+          mandalaIntro.classList.add('is-portal-opening');
+        }, 2200));
+        state.introTimers.push(setTimeout(finishIntro, 3250));
       }
 
       function attachRevealObserver() {
         if (state.revealsAttached) return;
         state.revealsAttached = true;
         const revealables = document.querySelectorAll('.reveal-panel, .reveal, .reveal-divider');
-        revealables.forEach((el, idx) => {
-          el.style.transitionDelay = `${(idx % 4) * 80}ms`;
+        document.querySelectorAll('.function-card').forEach((el, idx) => {
+          el.style.transitionDelay = `${idx * 95}ms`;
         });
+        if (state.reducedMotion) {
+          revealables.forEach((el) => el.classList.add('visible'));
+          return;
+        }
         if (!('IntersectionObserver' in window)) {
           revealables.forEach((el) => el.classList.add('visible'));
           return;
@@ -2706,6 +2637,7 @@
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
               entry.target.classList.add('visible');
+              obs.unobserve(entry.target);
             }
           });
         }, { threshold: 0.15 });
@@ -2802,9 +2734,7 @@
         const revealScratch = () => {
           const card = canvas.closest('.leaf-card');
           if (card) {
-            card.style.filter = 'drop-shadow(0 0 14px rgba(255, 201, 73, 0.65))';
-            card.style.transition = 'transform 0.4s ease';
-            card.style.transform = 'scale(1.02)';
+            card.classList.add('is-scratched');
           }
           leafHint.textContent = 'Shubh Vivah! See you there.';
           playChime();
@@ -3006,7 +2936,7 @@
         if (document.hidden) {
           if (state.track && !state.track.paused) state.track.pause();
           heroVideo?.pause();
-        } else if (state.introDone && state.musicReady) {
+        } else if (state.introDone && state.musicReady && state.musicPlaying) {
           state.track.play().catch(() => {});
           setMusicToggleState(true);
           if (state.heroVideoVisible) playHeroVideo();
@@ -3021,28 +2951,13 @@
       initScratchCard();
       setMusicToggleState(false);
 
-      if (!state.reducedMotion) {
-        const activateIntro = (event) => {
-          if (event && event.target && event.target.closest && event.target.closest('button, a, input, textarea, select')) return;
-          if (!state.introStarted) runDoorSequence();
-        };
-        document.addEventListener('pointerdown', activateIntro, { passive: true });
-        document.addEventListener('click', activateIntro);
-        doors?.addEventListener('pointerdown', activateIntro, { passive: true });
-        doors?.addEventListener('click', activateIntro);
-        document.addEventListener('keydown', (event) => {
-          if (event.key === 'Escape') handleIntroSkip();
-        }, { once: true });
-      }
-      skipButton?.addEventListener('click', handleIntroSkip);
-      if (state.reducedMotion) {
-        setTimeout(() => {
-          doors.style.display = 'none';
-          document.body.style.overflow = 'auto';
-          revealPage();
-          startMusic();
-        }, 100);
-      }
+      portalStart?.addEventListener('click', startMandalaIntro);
+      portalSkip?.addEventListener('click', finishIntro);
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && state.introStarted && !state.introDone) finishIntro();
+      });
+      if (state.reducedMotion) finishIntro();
+      else document.body.style.overflow = 'hidden';
 
       if (state.track) {
         state.track.addEventListener('ended', () => {
@@ -3065,12 +2980,6 @@
       });
 
 
-      window.addEventListener('load', () => {
-        if (!state.reducedMotion) {
-          const doorText = document.getElementById('doorGuestName');
-          if (doorText) doorText.style.opacity = '1';
-        }
-      });
 
       state.track = state.music;
       state.track?.pause();

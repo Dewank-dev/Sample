@@ -1,20 +1,15 @@
 {
   "name": "shadi",
   "version": "1.0.0",
-  "description": "A static wedding invitation website built with plain HTML, CSS and vanilla JavaScript for Netlify drag-and-drop deployment.",
-  "main": "index.js",
+  "description": "Static wedding invitation site with an optional Gemini content helper.",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "generate": "node gemini.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "module",
-  "devDependencies": {
-    "playwright": "^1.64.0"
-  },
   "dependencies": {
-    "@google/genai": "^2.29.1",
-    "playwright-core": "^1.64.0"
+    "@google/genai": "^2.29.1"
   }
 }
