@@ -1,8 +1,8 @@
 import { GoogleGenAI } from '@google/genai';
+import fs from 'fs';
 
 const ai = new GoogleGenAI();
 
-// Helper to delay execution during retries
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 async function generateWithRetry(model, prompt, maxRetries = 3) {
@@ -14,9 +14,8 @@ async function generateWithRetry(model, prompt, maxRetries = 3) {
             });
             return response.text;
         } catch (error) {
-            // If server is busy (503/429), wait and retry
             if ((error.status === 503 || error.status === 429) && attempt < maxRetries) {
-                const waitTime = attempt * 2000; // 2s, then 4s
+                const waitTime = attempt * 2000;
                 console.warn(`[${model}] Busy (Status ${error.status}). Retrying in ${waitTime / 1000}s... (Attempt ${attempt}/${maxRetries})`);
                 await sleep(waitTime);
             } else {
@@ -27,29 +26,42 @@ async function generateWithRetry(model, prompt, maxRetries = 3) {
 }
 
 async function main() {
-    const prompt = process.argv.slice(2).join(" ");
-    if (!prompt) {
+    const userPrompt = process.argv.slice(2).join(" ");
+    if (!userPrompt) {
         console.log("Please provide a prompt.");
         return;
     }
 
-    const modelsToTry = [
-        'gemini-3.8-flash',
-        'gemini-3.7-flash',
-        'gemini-3.6-flash'
-    ];
+    let htmlContext = "";
+    if (fs.existsSync('index.html')) {
+        htmlContext = fs.readFileSync('index.html', 'utf8');
+    }
+
+    const fullPrompt = `
+You are a frontend developer working on a luxury interactive wedding invitation ("Dewank & Anuradha").
+Current index.html content:
+\`\`\`html
+${htmlContext}
+\`\`\`
+
+User Request: ${userPrompt}
+`;
+
+    // Try primary stable model first, fallback to pro if busy
+    const modelsToTry = ['gemini-2.5-flash', 'gemini-2.5-pro'];
 
     for (const model of modelsToTry) {
         try {
-            const text = await generateWithRetry(model, prompt);
-            console.log(`\n[Response from ${model}]:\n` + text + "\n");
+            console.log(`Sending request using ${model}...`);
+            const text = await generateWithRetry(model, fullPrompt);
+            console.log(`\n--- Response from ${model} ---\n` + text + "\n");
             return;
         } catch (error) {
-            console.warn(`Model ${model} failed after retries. Trying next model...`);
+            console.warn(`Model ${model} failed after retries. Trying fallback...`);
         }
     }
 
-    console.error("All models are experiencing high traffic right now. Please try your request again in a few seconds.");
+    console.error("All model endpoints are busy. Please try again shortly.");
 }
 
 main();

@@ -231,13 +231,13 @@
 
       .reveal-panel {
         opacity: 0;
-        transform: translateY(22px) scale(0.95);
+        transform: translateY(22px);
         transition: opacity 700ms ease, transform 700ms ease;
       }
 
       .js .reveal-panel.visible {
         opacity: 1;
-        transform: translateY(0) scale(1);
+        transform: translateY(0);
       }
 
       .reveal-divider {
@@ -265,9 +265,24 @@
       }
 
       .hero {
+        position: relative;
+        isolation: isolate;
+        overflow: hidden;
+      }
+
+      .hero {
         padding: calc(28px + var(--safe-top)) 0 22px;
         text-align: center;
         color: #fff8ed;
+      }
+
+      .hero .deva-line {
+        display: inline-block;
+        background: linear-gradient(180deg, #fff0b8 0%, #e9c46a 48%, #b98b3f 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        font-family: "Yatra One", "Noto Sans Devanagari", cursive;
       }
 
       .hero-tag {
@@ -297,6 +312,7 @@
 
       .jharokha-frame {
         position: relative;
+        isolation: isolate;
         width: min(100%, 350px);
         margin: 0 auto;
         padding: 14px 14px 12px;
@@ -310,8 +326,10 @@
         position: absolute;
         inset: 0;
         border-radius: 28px 28px 42px 42px;
+        z-index: -1;
+        pointer-events: none;
         background: conic-gradient(from 0deg, rgba(247, 214, 120, 0.2), rgba(255,255,255,0.05), rgba(247,214,120,0.2));
-        animation: spinBorder 12s linear infinite;
+        animation: spinBorderFallback 12s linear infinite;
         filter: blur(0.4px);
       }
 
@@ -326,8 +344,18 @@
         to { --angle: 360deg; }
       }
 
+      @keyframes spinBorderFallback {
+        to { transform: rotate(1turn); }
+      }
+
+      .supports-property .jharokha-frame::before {
+        background: conic-gradient(from var(--angle), rgba(247, 214, 120, 0.75), rgba(255,255,255,0.08), rgba(247,214,120,0.75));
+        animation: spinBorder 12s linear infinite;
+      }
+
       .jharokha-frame > .frame-inner {
         position: relative;
+        z-index: 1;
         border-radius: 18px 18px 28px 28px;
         overflow: hidden;
         border: 2px solid rgba(249, 212, 122, 0.95);
@@ -354,7 +382,7 @@
         font-family: "Great Vibes", cursive;
         font-weight: 400;
         letter-spacing: 0.02em;
-        background: linear-gradient(180deg, #f2d37b 0%, #efc95b 28%, #d7a746 62%, #9b6528 100%);
+        background: var(--heading-gradient);
         -webkit-background-clip: text;
         background-clip: text;
         color: transparent;
@@ -748,17 +776,21 @@
         inset: 16px 22px 14px 22px;
         border-radius: 48% 52% 52% 48% / 50% 40% 60% 50%;
         border: 1.5px solid rgba(112, 74, 17, 0.8);
+        pointer-events: none;
       }
 
       .leaf-card::after {
         content: "";
         position: absolute;
+        z-index: 2;
         inset: 0;
         background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(119,79,28,0.2));
+        pointer-events: none;
       }
 
       .leaf-card canvas {
         position: absolute;
+        z-index: 1;
         inset: 0;
         width: 100%;
         height: 100%;
@@ -772,6 +804,7 @@
         place-items: center;
         text-align: center;
         z-index: 0;
+        pointer-events: none;
       }
 
       .leaf-card .date-shown > div {
@@ -1699,6 +1732,11 @@
         visibility: hidden;
       }
 
+      .hidden-content.visible {
+        opacity: 1;
+        visibility: visible;
+      }
+
       .reduced-motion * {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
@@ -1735,6 +1773,12 @@
           -webkit-background-clip: text;
           background-clip: text;
           color: transparent;
+        }
+
+        .hero .deva-line {
+          background: linear-gradient(180deg, #fff2c5 0%, #f3d481 48%, #c79a48 100%);
+          -webkit-background-clip: text;
+          background-clip: text;
         }
 
         .section-header h2,
@@ -1786,7 +1830,6 @@
 
         .countdown-value,
         .countdown-label,
-        .door-copy,
         .family-card .name,
         .family-card .phone,
         .footer-signoff .hosting-family,
@@ -1800,7 +1843,6 @@
         .event-check,
         .event-check input,
         .panel-inner .guest-line,
-        .door-copy .hint,
         .hero-date {
           color: var(--ink-dark);
         }
@@ -1817,9 +1859,8 @@
 
       @media (prefers-reduced-motion: reduce) {
         *, *::before, *::after {
-          animation-duration: 0.01ms !important;
-          animation-iteration-count: 1 !important;
-          transition-duration: 0.01ms !important;
+          animation: none !important;
+          transition: none !important;
           scroll-behavior: auto !important;
         }
       }
@@ -1895,7 +1936,7 @@
       </div>
     </div>
 
-    <div class="page-shell" id="pageContent">
+    <div class="page-shell hidden-content" id="pageContent">
       <button id="musicToggleMain" class="music-toggle visible" aria-label="Toggle music" type="button">
         <span class="note-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1916,7 +1957,7 @@
           <div class="hero-visual">
             <div class="jharokha-frame">
               <div class="frame-inner">
-                <video id="heroVideo" playsinline muted autoplay loop preload="auto" poster="card.jpg" aria-label="Wedding video" onerror="this.style.display='none'; this.parentNode.insertAdjacentHTML('beforeend', '<img src=\'card.jpg\' alt=\'Wedding invitation artwork\'>');">
+                <video id="heroVideo" playsinline muted loop preload="auto" poster="card.jpg" aria-label="Wedding video">
                   <source src="hero.mp4" type="video/mp4" />
                 </video>
               </div>
@@ -2241,10 +2282,15 @@
         chime: null,
         reducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
         count: 2,
-        rsvpSaved: false
+        rsvpSaved: false,
+        revealsAttached: false,
+        heroVideoVisible: false
       };
 
       document.documentElement.classList.add('js');
+      if (window.CSS && typeof CSS.registerProperty === 'function') {
+        document.documentElement.classList.add('supports-property');
+      }
       document.body.classList.toggle('reduced-motion', state.reducedMotion);
       if (state.reducedMotion) {
         document.documentElement.classList.add('reduced-motion');
@@ -2431,16 +2477,9 @@
         if (pageContent) {
           pageContent.classList.add('visible');
         }
-        if (heroVideo) {
-          heroVideo.play().catch(() => {});
-          heroVideo.pause();
-          setTimeout(() => heroVideo.play().catch(() => {}), 0);
-        }
+        observeHeroVideo();
 
-        const revealables = document.querySelectorAll('.reveal-panel, .reveal, .reveal-divider');
-        revealables.forEach((el, idx) => {
-          setTimeout(() => el.classList.add('visible'), 120 + idx * 80);
-        });
+        attachRevealObserver();
 
         setTimeout(() => {
           document.querySelectorAll('.reveal-words').forEach((el) => {
@@ -2451,6 +2490,42 @@
             });
           });
         }, 100);
+      }
+
+      function showHeroPoster() {
+        if (!heroVideo || !heroVideo.isConnected) return;
+        const fallback = document.createElement('img');
+        fallback.src = 'card.jpg';
+        fallback.alt = 'Wedding invitation artwork';
+        fallback.className = 'hero-poster-fallback';
+        heroVideo.replaceWith(fallback);
+      }
+
+      function playHeroVideo() {
+        if (!heroVideo || !heroVideo.isConnected || state.reducedMotion || document.hidden) return;
+        const playAttempt = heroVideo.play();
+        if (playAttempt && typeof playAttempt.catch === 'function') {
+          playAttempt.catch(() => showHeroPoster());
+        }
+      }
+
+      function observeHeroVideo() {
+        if (!heroVideo || !heroVideo.isConnected) return;
+        if (!('IntersectionObserver' in window)) {
+          requestAnimationFrame(playHeroVideo);
+          return;
+        }
+        const videoObserver = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            state.heroVideoVisible = entry.isIntersecting;
+            if (entry.isIntersecting) {
+              requestAnimationFrame(playHeroVideo);
+            } else {
+              heroVideo.pause();
+            }
+          });
+        }, { threshold: 0.1 });
+        videoObserver.observe(heroVideo);
       }
 
       function handleIntroSkip() {
@@ -2617,6 +2692,16 @@
       }
 
       function attachRevealObserver() {
+        if (state.revealsAttached) return;
+        state.revealsAttached = true;
+        const revealables = document.querySelectorAll('.reveal-panel, .reveal, .reveal-divider');
+        revealables.forEach((el, idx) => {
+          el.style.transitionDelay = `${(idx % 4) * 80}ms`;
+        });
+        if (!('IntersectionObserver' in window)) {
+          revealables.forEach((el) => el.classList.add('visible'));
+          return;
+        }
         const obs = new IntersectionObserver((entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
@@ -2625,7 +2710,7 @@
           });
         }, { threshold: 0.15 });
 
-        document.querySelectorAll('.reveal-panel, .reveal, .reveal-divider').forEach((el) => {
+        revealables.forEach((el) => {
           obs.observe(el);
         });
       }
@@ -2662,21 +2747,18 @@
         const leafHint = document.getElementById('leafHint');
         if (!canvas) return;
         const ctx = canvas.getContext('2d');
-        const top = 0;
         const width = canvas.width;
         const height = canvas.height;
-        const scratchShape = function () {
-          ctx.clearRect(0, 0, width, height);
-          ctx.beginPath();
-          ctx.moveTo(width * 0.5, 18);
-          ctx.bezierCurveTo(width * 0.88, 10, width * 1.04, 110, width * 0.74, 200);
-          ctx.bezierCurveTo(width * 1.04, 270, width * 0.68, 330, width * 0.5, height - 10);
-          ctx.bezierCurveTo(width * 0.32, 330, width * -0.04, 270, width * 0.26, 200);
-          ctx.bezierCurveTo(width * -0.04, 110, width * 0.12, 10, width * 0.5, 18);
-          ctx.closePath();
-          ctx.fillStyle = 'rgba(0,0,0,0)';
-          ctx.fill();
-        };
+        canvas.style.opacity = '1';
+        canvas.style.transition = '';
+        canvas.style.pointerEvents = 'auto';
+        const card = canvas.closest('.leaf-card');
+        if (card) {
+          card.style.filter = '';
+          card.style.transform = '';
+          card.style.transition = '';
+        }
+        if (leafHint) leafHint.textContent = 'Scratch the gold leaf to see the date';
 
         const drawInitialGold = () => {
           const grad = ctx.createLinearGradient(0, 0, width, height);
@@ -2708,7 +2790,14 @@
           ctx.fillText('SCRATCH HERE', width / 2, height / 2 + 8);
         };
 
+        ctx.clearRect(0, 0, width, height);
         drawInitialGold();
+
+        const initialPixels = ctx.getImageData(0, 0, width, height).data;
+        let coveredPixels = 0;
+        for (let i = 3; i < initialPixels.length; i += 4) {
+          if (initialPixels[i] > 20) coveredPixels++;
+        }
 
         const revealScratch = () => {
           const card = canvas.closest('.leaf-card');
@@ -2730,19 +2819,13 @@
         };
 
         let isDown = false;
-        let erasedPixels = 0;
-        let totalPixels = width * height;
+        let scratchComplete = false;
 
         const scratch = (event) => {
           if (!isDown) return;
           const rect = canvas.getBoundingClientRect();
           const x = ((event.clientX - rect.left) / rect.width) * width;
           const y = ((event.clientY - rect.top) / rect.height) * height;
-          ctx.beginPath();
-          ctx.fillStyle = 'rgba(0,0,0,1)';
-          ctx.moveTo(x, y);
-          ctx.arc(x, y, 18, 0, Math.PI * 2);
-          ctx.fill();
           ctx.globalCompositeOperation = 'destination-out';
           ctx.beginPath();
           ctx.arc(x, y, 18, 0, Math.PI * 2);
@@ -2750,28 +2833,33 @@
           ctx.globalCompositeOperation = 'source-over';
 
           const imageData = ctx.getImageData(0, 0, width, height).data;
-          let cleared = 0;
+          let remainingPixels = 0;
           for (let i = 3; i < imageData.length; i += 4) {
-            if (imageData[i] < 20) cleared++;
+            if (imageData[i] > 20) remainingPixels++;
           }
-          erasedPixels = cleared;
-          const percent = erasedPixels / totalPixels;
-          if (percent > 0.55) {
+          const erasedRatio = coveredPixels ? (coveredPixels - remainingPixels) / coveredPixels : 0;
+          if (!scratchComplete && erasedRatio > 0.55) {
+            scratchComplete = true;
             revealScratch();
             canvas.onpointerdown = null;
             canvas.onpointermove = null;
             canvas.onpointerup = null;
-            canvas.onpointerleave = null;
+            canvas.onpointercancel = null;
           }
         };
 
         canvas.onpointerdown = (event) => {
+          event.preventDefault();
           isDown = true;
+          canvas.setPointerCapture?.(event.pointerId);
           scratch(event);
         };
         canvas.onpointermove = scratch;
-        canvas.onpointerup = () => { isDown = false; };
-        canvas.onpointerleave = () => { isDown = false; };
+        canvas.onpointerup = (event) => {
+          isDown = false;
+          if (canvas.hasPointerCapture?.(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
+        };
+        canvas.onpointercancel = () => { isDown = false; };
 
         document.getElementById('showDateBtn')?.addEventListener('click', () => {
           canvas.style.opacity = '0';
@@ -2917,9 +3005,11 @@
       document.addEventListener('visibilitychange', () => {
         if (document.hidden) {
           if (state.track && !state.track.paused) state.track.pause();
+          heroVideo?.pause();
         } else if (state.introDone && state.musicReady) {
           state.track.play().catch(() => {});
           setMusicToggleState(true);
+          if (state.heroVideoVisible) playHeroVideo();
         }
       });
 
@@ -2929,35 +3019,22 @@
       ensureAudio();
       initCountDown();
       initScratchCard();
-      attachRevealObserver();
       setMusicToggleState(false);
 
       if (!state.reducedMotion) {
         const activateIntro = (event) => {
-          if (event && event.target && event.target.closest && event.target.closest('button, a, input, textarea, select')) {
-            return;
-          }
-          if (!state.introStarted) {
-            runDoorSequence();
-          }
+          if (event && event.target && event.target.closest && event.target.closest('button, a, input, textarea, select')) return;
+          if (!state.introStarted) runDoorSequence();
         };
-
         document.addEventListener('pointerdown', activateIntro, { passive: true });
-        document.addEventListener('click', activateIntro, { once: false });
+        document.addEventListener('click', activateIntro);
         doors?.addEventListener('pointerdown', activateIntro, { passive: true });
-        doors?.addEventListener('click', activateIntro, { once: false });
-
+        doors?.addEventListener('click', activateIntro);
         document.addEventListener('keydown', (event) => {
-          if (event.key === 'Escape') {
-            handleIntroSkip();
-          }
+          if (event.key === 'Escape') handleIntroSkip();
         }, { once: true });
       }
-
-      skipButton?.addEventListener('click', () => {
-        handleIntroSkip();
-      });
-
+      skipButton?.addEventListener('click', handleIntroSkip);
       if (state.reducedMotion) {
         setTimeout(() => {
           doors.style.display = 'none';
@@ -2987,6 +3064,7 @@
         }
       });
 
+
       window.addEventListener('load', () => {
         if (!state.reducedMotion) {
           const doorText = document.getElementById('doorGuestName');
@@ -3002,17 +3080,7 @@
         state.music.loop = true;
       }
 
-      if (heroVideo) {
-        heroVideo.addEventListener('error', () => {
-          const fallback = document.createElement('img');
-          fallback.src = 'card.jpg';
-          fallback.alt = 'Wedding invitation artwork';
-          fallback.style.width = '100%';
-          fallback.style.aspectRatio = '3 / 4';
-          fallback.style.objectFit = 'cover';
-          heroVideo.replaceWith(fallback);
-        });
-      }
+      heroVideo?.addEventListener('error', showHeroPoster);
     </script>
   </body>
 </html>
