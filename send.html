@@ -6,25 +6,25 @@
     <title>Wedding invite sender</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Great+Vibes&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Libre+Baskerville:wght@400;700&family=Pinyon+Script&display=swap" rel="stylesheet" />
     <style>
       :root {
-        --red: #b3131b;
+        --red: #c0182a;
         --deep-red: #8e0e17;
         --maroon: #4a0710;
-        --dark: #2a0307;
-        --gold: #c9a13b;
-        --light-gold: #e9c46a;
+        --dark: #260813;
+        --gold: #e3b65a;
+        --light-gold: #f6dfa0;
         --ivory: #fff8ec;
         --panel: #fffdf7;
-        --ink: #3b1e14;
-        --soft-ink: #6e4a36;
+        --ink: #2b1210;
+        --soft-ink: #694b3c;
       }
       * { box-sizing: border-box; }
       body {
         margin: 0;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-        background: linear-gradient(180deg, #28070b, #170308);
+        font-family: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+        background: radial-gradient(ellipse at 50% -10%, #641c30, #3c1023 44%, #260813 100%);
         color: var(--ink);
       }
       .wrap {
@@ -33,21 +33,21 @@
         padding: 28px 16px 42px;
       }
       .panel {
-        background: rgba(255,255,255,0.08);
-        border: 1px solid rgba(255, 210, 94, 0.3);
+        background: linear-gradient(145deg, rgba(255,253,247,.12), rgba(246,223,160,.05));
+        border: 1px solid rgba(246, 223, 160, 0.45);
         border-radius: 22px;
         padding: 18px;
         box-shadow: 0 18px 38px rgba(0,0,0,0.18);
       }
       h1, h2, h3 {
-        font-family: "Cinzel", serif;
-        color: #f8d372;
+        font-family: "Libre Baskerville", Georgia, "Times New Roman", serif;
+        color: #f6dfa0;
         letter-spacing: 0.06em;
       }
       .script {
-        font-family: "Great Vibes", cursive;
+        font-family: "Pinyon Script", "Brush Script MT", cursive;
         font-size: clamp(2.2rem, 7vw, 3.1rem);
-        color: #f1d07b;
+        color: #f6dfa0;
       }
       .step {
         margin-top: 18px;
@@ -205,6 +205,13 @@
       }
       .note {
         color: rgba(255,245,220,0.75); font-size: 0.9rem; }
+      button { font-family: "Cinzel", Georgia, "Times New Roman", serif; box-shadow: 0 5px 14px rgba(0,0,0,.16); transition: transform .18s ease, box-shadow .18s ease; }
+      button:hover { transform: translateY(-1px); box-shadow: 0 8px 18px rgba(0,0,0,.22); }
+      button:active { transform: scale(.97); }
+      :is(a,button,input,textarea,select):focus-visible { outline: 3px solid #f6dfa0; outline-offset: 3px; }
+      .step { border-color: rgba(246,223,160,.3); }
+      .guest-row { background: rgba(255,253,247,.08); border-color: rgba(246,223,160,.27); }
+      @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
       @media (max-width: 560px) {
         .guest-row { grid-template-columns: 20px 1fr; }
         .guest-link, .guest-phone { grid-column: 2 / -1; }
@@ -214,7 +221,7 @@
   <body>
     <div class="wrap">
       <div class="panel">
-        <div class="script">Rohan & Sneha</div>
+        <div class="script">Dewank &amp; Anuradha</div>
         <h1>Wedding invite sender</h1>
 
         <div class="step">
@@ -471,13 +478,13 @@
         ctx.textAlign = 'center';
         ctx.fillText('SPECIALLY FOR', canvas.width / 2, 56);
 
-        ctx.font = '400 74px Great Vibes';
+        ctx.font = '400 74px Pinyon Script';
         const name = guest.name.toUpperCase();
         const maxWidth = 350;
         let fontSize = 74;
         while (ctx.measureText(name).width > maxWidth && fontSize > 28) {
           fontSize -= 2;
-          ctx.font = '400 ' + fontSize + 'px Great Vibes';
+          ctx.font = '400 ' + fontSize + 'px Pinyon Script';
         }
         ctx.fillStyle = '#f4d37d';
         ctx.textAlign = 'center';
@@ -522,7 +529,7 @@
             const blob = await (await fetch(canvas.toDataURL('image/png'))).blob();
             const file = new File([blob], 'invitation-card.png', { type: 'image/png' });
             if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
-              await navigator.share({ title: 'Wedding invitation', text: 'Rohan & Sneha', files: [file] });
+              await navigator.share({ title: 'Wedding invitation', text: 'Dewank & Anuradha', files: [file] });
             }
           } catch (error) {
             console.warn('Unable to share card.', error);
