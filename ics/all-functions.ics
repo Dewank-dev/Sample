@@ -1,0 +1,58 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Rohan and Sneha//Wedding Invitation//EN
+BEGIN:VEVENT
+UID:haldi@wedding.invite
+DTSTAMP:20261013T194405Z
+DTSTART:20261120T033000Z
+DTEND:20261120T050000Z
+SUMMARY:Haldi
+DESCRIPTION:Wedding function for Rohan Sharma and Sneha Patil. Dress code: Yellow.
+LOCATION:Shivam Villa, Pune
+END:VEVENT
+BEGIN:VEVENT
+UID:mehendi@wedding.invite
+DTSTAMP:20261013T194405Z
+DTSTART:20261121T063000Z
+DTEND:20261121T083000Z
+SUMMARY:Mehendi
+DESCRIPTION:Wedding function for Rohan Sharma and Sneha Patil. Dress code: Green.
+LOCATION:Garden Courtyard, Pune
+END:VEVENT
+BEGIN:VEVENT
+UID:sangeet@wedding.invite
+DTSTAMP:20261013T194405Z
+DTSTART:20261121T140000Z
+DTEND:20261121T160000Z
+SUMMARY:Sangeet
+DESCRIPTION:Wedding function for Rohan Sharma and Sneha Patil. Dress code: Indo-western.
+LOCATION:The Palace Ballroom, Pune
+END:VEVENT
+BEGIN:VEVENT
+UID:baraat@wedding.invite
+DTSTAMP:20261013T194405Z
+DTSTART:20261122T044500Z
+DTEND:20261122T053000Z
+SUMMARY:Baraat
+DESCRIPTION:Wedding function for Rohan Sharma and Sneha Patil. Dress code: Royal.
+LOCATION:Main Gate, Royal Palace, Pune
+END:VEVENT
+BEGIN:VEVENT
+UID:vivah@wedding.invite
+DTSTAMP:20261013T194405Z
+DTSTART:20261122T053500Z
+DTEND:20261122T073000Z
+SUMMARY:Vivah / Phere
+DESCRIPTION:Wedding function for Rohan Sharma and Sneha Patil. Dress code: Traditional.
+LOCATION:Royal Palace Mandap, Pune
+END:VEVENT
+BEGIN:VEVENT
+UID:reception@wedding.invite
+DTSTAMP:20261013T194405Z
+DTSTART:20261122T143000Z
+DTEND:20261122T163000Z
+SUMMARY:Reception
+DESCRIPTION:Wedding function for Rohan Sharma and Sneha Patil. Dress code: Formal.
+LOCATION:Silver Oak Hall, Pune
+END:VEVENT
+END:VCALENDAR

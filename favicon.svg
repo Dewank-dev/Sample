@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Wedding monogram R and S">
+  <rect width="64" height="64" rx="12" fill="#4A0710"/>
+  <path d="M18 15h28v7H31v14h12v8H31v13H18V15z" fill="#F2D27A"/>
+  <path d="M42 15h6v34h-6V15zm-2 9h7" fill="#E3B65A"/>
+  <circle cx="18" cy="18" r="2" fill="#F9E8B5"/>
+</svg>

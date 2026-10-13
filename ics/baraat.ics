@@ -1,0 +1,13 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Rohan and Sneha//Wedding Invitation//EN
+BEGIN:VEVENT
+UID:baraat@wedding.invite
+DTSTAMP:20261013T194405Z
+DTSTART:20261122T044500Z
+DTEND:20261122T053000Z
+SUMMARY:Baraat
+DESCRIPTION:Wedding function for Rohan Sharma and Sneha Patil. Dress code: Royal.
+LOCATION:Main Gate, Royal Palace, Pune
+END:VEVENT
+END:VCALENDAR

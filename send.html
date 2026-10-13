@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wedding invite sender</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Great+Vibes&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --red: #b3131b;
+        --deep-red: #8e0e17;
+        --maroon: #4a0710;
+        --dark: #2a0307;
+        --gold: #c9a13b;
+        --light-gold: #e9c46a;
+        --ivory: #fff8ec;
+        --panel: #fffdf7;
+        --ink: #3b1e14;
+        --soft-ink: #6e4a36;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        background: linear-gradient(180deg, #28070b, #170308);
+        color: var(--ink);
+      }
+      .wrap {
+        max-width: 860px;
+        margin: 0 auto;
+        padding: 28px 16px 42px;
+      }
+      .panel {
+        background: rgba(255,255,255,0.08);
+        border: 1px solid rgba(255, 210, 94, 0.3);
+        border-radius: 22px;
+        padding: 18px;
+        box-shadow: 0 18px 38px rgba(0,0,0,0.18);
+      }
+      h1, h2, h3 {
+        font-family: "Cinzel", serif;
+        color: #f8d372;
+        letter-spacing: 0.06em;
+      }
+      .script {
+        font-family: "Great Vibes", cursive;
+        font-size: clamp(2.2rem, 7vw, 3.1rem);
+        color: #f1d07b;
+      }
+      .step {
+        margin-top: 18px;
+        padding-top: 18px;
+        border-top: 1px solid rgba(255, 212, 95, 0.22);
+      }
+      .field {
+        display: grid;
+        gap: 8px;
+        margin-top: 10px;
+      }
+      label {
+        font-size: 0.72rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: rgba(255, 240, 214, 0.8);
+      }
+      input, textarea, button {
+        font: inherit;
+      }
+      input, textarea {
+        width: 100%;
+        padding: 12px 14px;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 212, 95, 0.3);
+        background: rgba(255,255,255,0.06);
+        color: #fffaf0;
+      }
+      textarea {
+        min-height: 140px;
+      }
+      .row {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      button {
+        border: 0;
+        border-radius: 999px;
+        min-height: 44px;
+        padding: 10px 16px;
+        cursor: pointer;
+        background: linear-gradient(135deg, #f3d272, #d6a748);
+        color: #1f0b0b;
+        font-family: "Cinzel", serif;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        font-size: 0.7rem;
+      }
+      .ghost {
+        background: rgba(255,255,255,0.08);
+        color: #f9d989;
+        border: 1px solid rgba(255,210,94,0.3);
+      }
+      .pill-toggle {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 10px;
+      }
+      .pill-toggle label {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 12px;
+        border-radius: 999px;
+        min-height: 42px;
+        border: 1px solid rgba(255,212,95,0.35);
+        background: rgba(255,255,255,0.05);
+        color: #ffefc6;
+        cursor: pointer;
+        letter-spacing: 0.04em;
+      }
+      .pill-toggle input { display: none; }
+      .pill-toggle input:checked + span {
+        color: #1e0d13;
+      }
+      .pill-toggle .option {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        min-width: 110px;
+      }
+      .pill-toggle input:checked + .option {
+        background: linear-gradient(135deg, #f7e3ad, #d3a64d);
+        border-radius: 999px;
+        color: #1e0d13;
+      }
+      .progress {
+        width: 100%;
+        height: 12px;
+        background: rgba(255,255,255,0.08);
+        border-radius: 999px;
+        overflow: hidden;
+        margin-top: 12px;
+      }
+      .progress-bar {
+        display: block;
+        width: 30%;
+        height: 100%;
+        background: linear-gradient(90deg, #fbd886, #d6a748);
+      }
+      .guest-list {
+        margin-top: 14px;
+        display: grid;
+        gap: 10px;
+      }
+      .guest-row {
+        display: grid;
+        grid-template-columns: 22px 1fr auto auto auto;
+        gap: 8px;
+        align-items: center;
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,212,95,0.2);
+        border-radius: 14px;
+        padding: 10px 12px;
+      }
+      .guest-row input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+      }
+      .guest-name { color: #fff1d0; }
+      .guest-phone { color: rgba(255,245,222,0.8); font-size: 0.8rem; }
+      .guest-link { font-size: 0.73rem; color: #f6d88b; }
+      .action-btn {
+        padding: 8px 10px;
+        min-height: 34px;
+        font-size: 0.68rem;
+      }
+      .modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(10,5,6,0.76);
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+      }
+      .modal.visible { display: flex; }
+      .modal-inner {
+        width: min(100%, 420px);
+        background: linear-gradient(180deg, rgba(45, 9, 11, 0.98), rgba(22, 7, 9, 0.98));
+        border: 1px solid rgba(255,217,115,0.34);
+        border-radius: 18px;
+        padding: 18px;
+      }
+      canvas {
+        display: block;
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto 10px;
+        border-radius: 18px;
+      }
+      .note {
+        color: rgba(255,245,220,0.75); font-size: 0.9rem; }
+      @media (max-width: 560px) {
+        .guest-row { grid-template-columns: 20px 1fr; }
+        .guest-link, .guest-phone { grid-column: 2 / -1; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="panel">
+        <div class="script">Rohan & Sneha</div>
+        <h1>Wedding invite sender</h1>
+
+        <div class="step">
+          <h2>1. Your invite website</h2>
+          <div class="field">
+            <label for="siteUrl">URL</label>
+            <input id="siteUrl" type="url" value="https://example-wedding.netlify.app/" />
+          </div>
+        </div>
+
+        <div class="step">
+          <h2>2. Your guests</h2>
+          <div class="field">
+            <label for="guestList">Name, phone</label>
+            <textarea id="guestList" placeholder="Name, phone&#10;Riya Mehta, 9876543210&#10;Amit Shah, 9988776655"></textarea>
+          </div>
+          <div class="row" style="margin-top: 14px;">
+            <button id="makeLinksBtn" type="button">Make links</button>
+            <button id="resetGuests" type="button" class="ghost">Reset</button>
+          </div>
+          <div class="note" id="guestSummary">0 guests found • 0 without a number</div>
+        </div>
+
+        <div class="step">
+          <h2>3. Send on WhatsApp</h2>
+          <div class="pill-toggle" id="messageType">
+            <label><input type="radio" name="templateType" value="invitation" checked /><span class="option">Invitation</span></label>
+            <label><input type="radio" name="templateType" value="reminder1" /><span class="option">Reminder 1 day before</span></label>
+            <label><input type="radio" name="templateType" value="reminderDay" /><span class="option">Reminder on the day</span></label>
+          </div>
+          <div class="field">
+            <label for="messageTemplate">Template</label>
+            <textarea id="messageTemplate"></textarea>
+          </div>
+          <div class="row" style="margin-top: 12px;">
+            <button id="resetTplBtn" type="button" class="ghost">Reset template</button>
+          </div>
+          <div class="progress"><span id="progressBar" class="progress-bar"></span></div>
+          <div class="row" style="margin-top: 12px; justify-content: space-between;">
+            <div class="note" id="progressText">Sent 0 of 0</div>
+            <button id="untickBtn" type="button" class="ghost">Untick all</button>
+          </div>
+          <div id="guestRows" class="guest-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="cardModal" class="modal" aria-hidden="true">
+      <div class="modal-inner">
+        <canvas id="cardCanvas" width="480" height="610"></canvas>
+        <div class="row" style="justify-content: center; margin-top: 10px;">
+          <button id="downloadCard" type="button">Download</button>
+          <button id="shareCard" type="button" class="ghost">Share</button>
+          <button id="closeCard" type="button" class="ghost">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const defaults = {
+        site: 'https://example-wedding.netlify.app/',
+        invitation: 'Namaste {name},\n\nWith the blessings of our elders, we invite you to the wedding of Dewank Shukla & Anuradha Pandey.\n\nWednesday, 25 November 2026, Shubh Muhurat 5:00 PM\nShukla Family Residence, Pune\n\nOpen your invitation (all functions, directions and RSVP):\n{link}\n\nPlease tell us which functions you will attend, using the reply button on the page.\n\nAwaiting your presence,\nAbhinav & Arti Shukla',
+        reminder1: 'Namaste {name},\n\nA gentle reminder: the wedding celebrations of Dewank Shukla & Anuradha Pandey begin tomorrow.\n\nTimings, venues and directions:\n{link}\n\nWe look forward to seeing you!',
+        reminderDay: 'Namaste {name},\n\nToday is the wedding of Dewank Shukla & Anuradha Pandey! Shubh Muhurat 5:00 PM at Shukla Family Residence.\n\nTap for directions:\n{link}\n\nSee you there!'
+      };
+
+      const state = {
+        guests: [],
+        templateKey: 'invitation'
+      };
+
+      const siteInput = document.getElementById('siteUrl');
+      const guestList = document.getElementById('guestList');
+      const guestSummary = document.getElementById('guestSummary');
+      const guestRows = document.getElementById('guestRows');
+      const progressBar = document.getElementById('progressBar');
+      const progressText = document.getElementById('progressText');
+      const templateInput = document.getElementById('messageTemplate');
+      const messageType = document.getElementById('messageType');
+
+      function persistSite() {
+        localStorage.setItem('invite-site-url', siteInput.value || defaults.site);
+      }
+
+      function loadStorage() {
+        siteInput.value = localStorage.getItem('invite-site-url') || defaults.site;
+        for (const key of ['invitation', 'reminder1', 'reminderDay']) {
+          const stored = localStorage.getItem('send-template-' + key);
+          defaults[key] = stored || defaults[key];
+        }
+      }
+
+      function slugifyName(name) {
+        const base = name
+          .replace(/&/g, 'and')
+          .replace(/[^a-zA-Z0-9 .]/g, ' ')
+          .replace(/\s+/g, ' ')
+          .trim();
+        return base.split(' ').filter(Boolean).join('-').toLowerCase();
+      }
+
+      function normalizeNumber(raw) {
+        let value = (raw || '').replace(/\D/g, '');
+        if (!value) return '';
+        if (value.startsWith('0')) value = value.slice(1);
+        if (value.length === 10) value = '91' + value;
+        if (value.length < 10) return '';
+        return value;
+      }
+
+      function parseGuests() {
+        const text = guestList.value;
+        const lines = text.split(/\n|\t/).map((line) => line.trim()).filter(Boolean);
+        const parsed = [];
+        lines.forEach((line) => {
+          const split = line.split(/,|\t/);
+          let name = split[0]?.trim() || '';
+          let phone = '';
+          if (split.length > 1) {
+            phone = split.slice(1).join(' ').trim();
+          } else {
+            const match = line.match(/(\d{10,})$/);
+            if (match) {
+              name = line.replace(match[0], '').trim();
+              phone = match[0];
+            }
+          }
+          if (!name && !phone) return;
+          const cleanPhone = normalizeNumber(phone || '');
+          parsed.push({ name: name || 'Guest', phone: cleanPhone, link: (() => {
+            const site = (siteInput.value || defaults.site).replace(/\/$/, '');
+            const slug = encodeURIComponent(slugifyName(name || 'Guest'));
+            return site + '/?to=' + slug;
+          })() });
+        });
+        state.guests = parsed;
+        return parsed;
+      }
+
+      function renderGuestRows() {
+        const guests = state.guests;
+        guestRows.innerHTML = '';
+        guests.forEach((guest, index) => {
+          const row = document.createElement('div');
+          row.className = 'guest-row';
+          row.innerHTML = `
+            <input type="checkbox" data-index="${index}" checked />
+            <div>
+              <div class="guest-name">${guest.name}</div>
+              <div class="guest-phone">${guest.phone || 'No number'}</div>
+            </div>
+            <div class="guest-link">${guest.link.replace(/^https?:\/\//, '').slice(0, 30)}...</div>
+            <button class="action-btn" data-action="send" data-index="${index}" type="button">Send</button>
+            <button class="action-btn" data-action="copy" data-index="${index}" type="button">Copy</button>
+            <button class="action-btn" data-action="card" data-index="${index}" type="button">Card</button>
+          `;
+          guestRows.appendChild(row);
+        });
+
+        guestRows.querySelectorAll('[data-action]').forEach((button) => {
+          button.addEventListener('click', () => {
+            const index = Number(button.dataset.index);
+            const guest = guests[index];
+            const template = templateInput.value.replace('{name}', guest.name).replace('{link}', guest.link);
+            if (button.dataset.action === 'send') {
+              const url = guest.phone ? 'https://wa.me/' + guest.phone + '?text=' + encodeURIComponent(template) : 'https://wa.me/?text=' + encodeURIComponent(template);
+              window.open(url, '_blank');
+              rowTick(index);
+            }
+            if (button.dataset.action === 'copy') {
+              navigator.clipboard?.writeText(template);
+            }
+            if (button.dataset.action === 'card') {
+              drawCardForGuest(guest);
+            }
+          });
+        });
+
+        updateProgress();
+      }
+
+      function rowTick(index) {
+        const checkbox = guestRows.querySelector(`input[data-index="${index}"]`);
+        if (checkbox) checkbox.checked = true;
+      }
+
+      function updateProgress() {
+        const total = state.guests.length;
+        const sent = guestRows.querySelectorAll('input[type="checkbox"]:checked').length;
+        progressBar.style.width = total ? (sent / total * 100) + '%' : '0%';
+        progressText.textContent = 'Sent ' + sent + ' of ' + total;
+      }
+
+      document.getElementById('makeLinksBtn').addEventListener('click', () => {
+        const guests = parseGuests();
+        const withoutNumber = guests.filter((guest) => !guest.phone).length;
+        guestSummary.textContent = guests.length + ' guests found • ' + withoutNumber + ' without a number';
+        state.guests = guests;
+        renderGuestRows();
+      });
+
+      document.getElementById('resetGuests').addEventListener('click', () => {
+        guestList.value = '';
+        guestSummary.textContent = '0 guests found • 0 without a number';
+        state.guests = [];
+        renderGuestRows();
+      });
+
+      function templateForKey(key) {
+        return localStorage.getItem('send-template-' + key) || defaults[key];
+      }
+
+      function updateTemplateInput() {
+        const selected = document.querySelector('input[name="templateType"]:checked').value;
+        state.templateKey = selected;
+        const template = templateForKey({ invitation: 'invitation', reminder1: 'reminder1', reminderDay: 'reminderDay' }[selected]);
+        templateInput.value = template;
+        localStorage.setItem('send-template-' + selected, templateInput.value);
+      }
+
+      messageType.addEventListener('change', updateTemplateInput);
+      templateInput.addEventListener('input', () => {
+        localStorage.setItem('send-template-' + state.templateKey, templateInput.value);
+      });
+
+      document.getElementById('resetTplBtn').addEventListener('click', () => {
+        templateInput.value = defaults[state.templateKey];
+        localStorage.setItem('send-template-' + state.templateKey, templateInput.value);
+      });
+
+      document.getElementById('untickBtn').addEventListener('click', () => {
+        guestRows.querySelectorAll('input[type="checkbox"]').forEach((box) => (box.checked = false));
+        updateProgress();
+      });
+
+      function drawCardForGuest(guest) {
+        const canvas = document.getElementById('cardCanvas');
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const bg = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+        bg.addColorStop(0, '#7c1321');
+        bg.addColorStop(0.35, '#4a0710');
+        bg.addColorStop(1, '#1d080c');
+        ctx.fillStyle = bg;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.fillStyle = 'rgba(255,220,130,0.08)';
+        ctx.fillRect(0, 0, canvas.width, 170);
+
+        ctx.fillStyle = '#e7bb55';
+        ctx.fillRect(0, 0, canvas.width, 120);
+        ctx.fillStyle = '#af1b2a';
+        ctx.font = '600 22px Cinzel';
+        ctx.textAlign = 'center';
+        ctx.fillText('SPECIALLY FOR', canvas.width / 2, 56);
+
+        ctx.font = '400 74px Great Vibes';
+        const name = guest.name.toUpperCase();
+        const maxWidth = 350;
+        let fontSize = 74;
+        while (ctx.measureText(name).width > maxWidth && fontSize > 28) {
+          fontSize -= 2;
+          ctx.font = '400 ' + fontSize + 'px Great Vibes';
+        }
+        ctx.fillStyle = '#f4d37d';
+        ctx.textAlign = 'center';
+        ctx.fillText(name, canvas.width / 2, 180);
+
+        ctx.fillStyle = '#f7e39b';
+        ctx.font = '600 18px Cinzel';
+        ctx.fillText('Dewank Shukla & Anuradha Pandey', canvas.width / 2, 250);
+        ctx.font = '400 16px Cinzel';
+        ctx.fillText('Wednesday, 25 November 2026', canvas.width / 2, 285);
+
+        const img = new Image();
+        img.onload = () => {
+          const scale = Math.min(1, 320 / img.width, 220 / img.height);
+          const w = img.width * scale;
+          const h = img.height * scale;
+          const x = (canvas.width - w) / 2;
+          const y = 320;
+          ctx.save();
+          ctx.beginPath();
+          ctx.roundRect(x, y, w, h, 22);
+          ctx.clip();
+          ctx.drawImage(img, x, y, w, h);
+          ctx.restore();
+          document.getElementById('cardModal').classList.add('visible');
+        };
+        img.src = 'card.jpg';
+        if (img.complete) img.onload();
+
+        const modal = document.getElementById('cardModal');
+        modal.setAttribute('aria-hidden', 'false');
+
+        document.getElementById('downloadCard').onclick = () => {
+          const link = document.createElement('a');
+          link.download = 'wedding-card-' + guest.name.replace(/\s+/g, '-').toLowerCase() + '.png';
+          link.href = canvas.toDataURL('image/png');
+          link.click();
+        };
+
+        document.getElementById('shareCard').onclick = async () => {
+          try {
+            const blob = await (await fetch(canvas.toDataURL('image/png'))).blob();
+            const file = new File([blob], 'invitation-card.png', { type: 'image/png' });
+            if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+              await navigator.share({ title: 'Wedding invitation', text: 'Rohan & Sneha', files: [file] });
+            }
+          } catch (error) {
+            console.warn('Unable to share card.', error);
+          }
+        };
+      }
+
+      document.getElementById('closeCard').onclick = () => {
+        document.getElementById('cardModal').classList.remove('visible');
+      };
+
+      loadStorage();
+      updateTemplateInput();
+      parseGuests();
+      renderGuestRows();
+      persistSite();
+      siteInput.addEventListener('input', persistSite);
+    </script>
+  </body>
+</html>
