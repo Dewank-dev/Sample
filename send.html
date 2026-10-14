@@ -19,11 +19,15 @@
         --panel: #fffdf7;
         --ink: #2b1210;
         --soft-ink: #694b3c;
+        --font-display: "Libre Baskerville", Georgia, "Times New Roman", serif;
+        --font-body: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+        --font-script: "Pinyon Script", "Brush Script MT", cursive;
+        --font-label: "Cinzel", Georgia, "Times New Roman", serif;
       }
       * { box-sizing: border-box; }
       body {
         margin: 0;
-        font-family: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+        font-family: var(--font-body);
         background: radial-gradient(ellipse at 50% -10%, #641c30, #3c1023 44%, #260813 100%);
         color: var(--ink);
       }
@@ -40,12 +44,12 @@
         box-shadow: 0 18px 38px rgba(0,0,0,0.18);
       }
       h1, h2, h3 {
-        font-family: "Libre Baskerville", Georgia, "Times New Roman", serif;
+        font-family: var(--font-display);
         color: #f6dfa0;
         letter-spacing: 0.06em;
       }
       .script {
-        font-family: "Pinyon Script", "Brush Script MT", cursive;
+        font-family: var(--font-script);
         font-size: clamp(2.2rem, 7vw, 3.1rem);
         color: #f6dfa0;
       }
@@ -93,7 +97,7 @@
         cursor: pointer;
         background: linear-gradient(135deg, #f3d272, #d6a748);
         color: #1f0b0b;
-        font-family: "Cinzel", serif;
+        font-family: var(--font-label);
         letter-spacing: 0.08em;
         text-transform: uppercase;
         font-size: 0.7rem;
@@ -205,7 +209,7 @@
       }
       .note {
         color: rgba(255,245,220,0.75); font-size: 0.9rem; }
-      button { font-family: "Cinzel", Georgia, "Times New Roman", serif; box-shadow: 0 5px 14px rgba(0,0,0,.16); transition: transform .18s ease, box-shadow .18s ease; }
+      button { font-family: var(--font-label); box-shadow: 0 5px 14px rgba(0,0,0,.16); transition: transform .18s ease, box-shadow .18s ease; }
       button:hover { transform: translateY(-1px); box-shadow: 0 8px 18px rgba(0,0,0,.22); }
       button:active { transform: scale(.97); }
       :is(a,button,input,textarea,select):focus-visible { outline: 3px solid #f6dfa0; outline-offset: 3px; }
@@ -283,9 +287,9 @@
     <script>
       const defaults = {
         site: 'https://example-wedding.netlify.app/',
-        invitation: 'Namaste {name},\n\nWith the blessings of our elders, we invite you to the wedding of Dewank Shukla & Anuradha Pandey.\n\nWednesday, 25 November 2026, Shubh Muhurat 5:00 PM\nShukla Family Residence, Pune\n\nOpen your invitation (all functions, directions and RSVP):\n{link}\n\nPlease tell us which functions you will attend, using the reply button on the page.\n\nAwaiting your presence,\nAbhinav & Arti Shukla',
+        invitation: 'Namaste {name},\n\nWith the blessings of our elders, we invite you to the wedding of Dewank Shukla & Anuradha Pandey.\n\nWednesday, 25 November 2026, Shubh Muhurat 5:00 PM\nShukla Family Residence, Prayagraj, Uttar Pradesh\n\nOpen your invitation (all functions, directions and RSVP):\n{link}\n\nPlease tell us which functions you will attend, using the reply button on the page.\n\nAwaiting your presence,\nAbhinav & Arti Shukla',
         reminder1: 'Namaste {name},\n\nA gentle reminder: the wedding celebrations of Dewank Shukla & Anuradha Pandey begin tomorrow.\n\nTimings, venues and directions:\n{link}\n\nWe look forward to seeing you!',
-        reminderDay: 'Namaste {name},\n\nToday is the wedding of Dewank Shukla & Anuradha Pandey! Shubh Muhurat 5:00 PM at Shukla Family Residence.\n\nTap for directions:\n{link}\n\nSee you there!'
+        reminderDay: 'Namaste {name},\n\nToday is the wedding of Dewank Shukla & Anuradha Pandey! Shubh Muhurat 5:00 PM at Shukla Family Residence, Prayagraj, Uttar Pradesh.\n\nTap for directions:\n{link}\n\nSee you there!'
       };
 
       const state = {
@@ -457,9 +461,18 @@
         updateProgress();
       });
 
-      function drawCardForGuest(guest) {
+      async function drawCardForGuest(guest) {
+        try {
+          if (document.fonts?.load) await Promise.allSettled([
+            document.fonts.load('400 74px "Pinyon Script"'),
+            document.fonts.load('600 22px "Cinzel"')
+          ]);
+        } catch (_) { /* Keep canvas text readable with its serif fallback. */ }
         const canvas = document.getElementById('cardCanvas');
         const ctx = canvas.getContext('2d');
+        const fontVars = getComputedStyle(document.documentElement);
+        const scriptFont = fontVars.getPropertyValue('--font-script').trim() || 'cursive';
+        const labelFont = fontVars.getPropertyValue('--font-label').trim() || 'serif';
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         const bg = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
         bg.addColorStop(0, '#7c1321');
@@ -474,26 +487,26 @@
         ctx.fillStyle = '#e7bb55';
         ctx.fillRect(0, 0, canvas.width, 120);
         ctx.fillStyle = '#af1b2a';
-        ctx.font = '600 22px Cinzel';
+        ctx.font = `600 22px ${labelFont}`;
         ctx.textAlign = 'center';
         ctx.fillText('SPECIALLY FOR', canvas.width / 2, 56);
 
-        ctx.font = '400 74px Pinyon Script';
+        ctx.font = `400 74px ${scriptFont}`;
         const name = guest.name.toUpperCase();
         const maxWidth = 350;
         let fontSize = 74;
         while (ctx.measureText(name).width > maxWidth && fontSize > 28) {
           fontSize -= 2;
-          ctx.font = '400 ' + fontSize + 'px Pinyon Script';
+          ctx.font = `400 ${fontSize}px ${scriptFont}`;
         }
         ctx.fillStyle = '#f4d37d';
         ctx.textAlign = 'center';
         ctx.fillText(name, canvas.width / 2, 180);
 
         ctx.fillStyle = '#f7e39b';
-        ctx.font = '600 18px Cinzel';
+        ctx.font = `600 18px ${labelFont}`;
         ctx.fillText('Dewank Shukla & Anuradha Pandey', canvas.width / 2, 250);
-        ctx.font = '400 16px Cinzel';
+        ctx.font = `400 16px ${labelFont}`;
         ctx.fillText('Wednesday, 25 November 2026', canvas.width / 2, 285);
 
         const img = new Image();
