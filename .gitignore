@@ -1,6 +1,10 @@
 # Installed dependencies and local package manager cache
 node_modules/
 .npm/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
 
 # Secrets and local configuration
 .env
