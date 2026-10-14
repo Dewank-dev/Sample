@@ -1,0 +1,1 @@
+(() => {window.WeddingTransitions={draw(c,t,index,duration){const s=window.WeddingScenes.list[index],edge=Math.min(t-s.start,s.start+s.length-t);if(edge<.5){c.fillStyle=`rgba(112,50,24,${Math.pow(1-edge/.5,2)*.12})`;c.fillRect(0,0,720,1280)}if(t>duration-.65){c.fillStyle=`rgba(255,248,230,${Math.min(1,(t-duration+.65)/.65)})`;c.fillRect(0,0,720,1280)}}}})();

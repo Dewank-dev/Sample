@@ -1,0 +1,95 @@
+"""Serve the static wedding invitation through Streamlit Community Cloud."""
+
+from __future__ import annotations
+
+import base64
+import re
+from pathlib import Path
+
+import streamlit as st
+from streamlit.components.v1 import html as html_component
+
+
+ROOT = Path(__file__).resolve().parent
+ASSETS = {
+    "hero.mp4": "video/mp4",
+    "hero-poster.jpg": "image/jpeg",
+    "card.jpg": "image/jpeg",
+    "music.mp3": "audio/mpeg",
+    "chime.mp3": "audio/mpeg",
+    "mandap-canopy.jpg": "image/jpeg",
+    "ganesha-medallion.jpg": "image/jpeg",
+    "peacock-pair.jpg": "image/jpeg",
+}
+
+
+def asset_data_url(filename: str, mime_type: str) -> str:
+    """Return an embedded URL for an invitation asset."""
+    encoded = base64.b64encode((ROOT / filename).read_bytes()).decode("ascii")
+    return f"data:{mime_type};base64,{encoded}"
+
+
+def invitation_markup() -> str:
+    source = (ROOT / "index.html").read_text(encoding="utf-8")
+    for filename, mime_type in ASSETS.items():
+        asset_path = ROOT / filename
+        if asset_path.is_file():
+            source = source.replace(filename, asset_data_url(filename, mime_type))
+
+    if not (ROOT / "hero.mp4").is_file():
+        source = re.sub(r"\s*<video\b[^>]*>.*?</video>", "", source, flags=re.DOTALL | re.IGNORECASE)
+        source = source.replace('id="heroVisualFallback" hidden', 'id="heroVisualFallback"')
+    if not (ROOT / "card.jpg").is_file():
+        source = re.sub(r'\s*<a\b[^>]*href="card\.jpg"[^>]*>.*?</a>', "", source, flags=re.DOTALL | re.IGNORECASE)
+    return source
+
+
+def main() -> None:
+    st.set_page_config(
+        page_title="Dewank Shukla & Anuradha Pandey Wedding",
+        page_icon="💐",
+        layout="wide",
+        initial_sidebar_state="collapsed",
+    )
+
+    st.markdown(
+        """
+        <style>
+          [data-testid="stHeader"], [data-testid="stToolbar"],
+          [data-testid="stDecoration"], footer, #MainMenu,
+          [data-testid="stSidebar"], [data-testid="manage-app-button"],
+          [data-testid="stAppDeployButton"], [data-testid="stStatusWidget"],
+          #stDeployButton, #GithubIcon,
+          .viewerBadge_container__1QSob, .styles_viewerBadge__1yB5_,
+          .viewerBadge_link__1S137, .viewerBadge_text__1JaDK,
+          a[href*="github.com"], a[href*="streamlit.io"] {
+            display: none !important;
+          }
+          [data-testid="stAppViewContainer"], [data-testid="stMain"],
+          [data-testid="stMainBlockContainer"] {
+            width: 100% !important;
+            max-width: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+          }
+          [data-testid="stVerticalBlock"] { gap: 0 !important; }
+          [data-testid="stElementContainer"] { margin: 0 !important; padding: 0 !important; }
+          html, body, #root, [data-testid="stAppViewContainer"] {
+            height: 100%;
+            overflow: hidden;
+          }
+          [data-testid="stIFrame"], [data-testid="stIFrame"] iframe {
+            height: 100vh !important;
+            height: 100svh !important;
+            height: 100dvh !important;
+            max-height: 100dvh !important;
+          }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+    html_component(invitation_markup(), height=844, scrolling=True)
+
+
+if __name__ == "__main__":
+    main()

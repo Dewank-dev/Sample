@@ -1,0 +1,41 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+.streamlit/secrets.toml
+*.webm
+*.tmp
+*.log
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+# Installed dependencies and local package manager cache
+node_modules/
+.npm/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+
+# Deployment tooling state
+.netlify/
+
+# Logs and generated coverage output
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+coverage/
+
+# Operating system and editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
