@@ -46,7 +46,11 @@ def main() -> None:
         <style>
           [data-testid="stHeader"], [data-testid="stToolbar"],
           [data-testid="stDecoration"], footer, #MainMenu,
-          [data-testid="stSidebar"] { display: none !important; }
+          [data-testid="stSidebar"], [data-testid="manage-app-button"],
+          [data-testid="stAppDeployButton"],
+          a[href*="github.com"], a[href*="streamlit.io"] {
+            display: none !important;
+          }
           [data-testid="stAppViewContainer"], [data-testid="stMain"],
           [data-testid="stMainBlockContainer"] {
             width: 100% !important;
@@ -62,7 +66,9 @@ def main() -> None:
           }
           [data-testid="stIFrame"], [data-testid="stIFrame"] iframe {
             height: 100vh !important;
+            height: 100svh !important;
             height: 100dvh !important;
+            min-height: 100svh !important;
             max-height: 100dvh !important;
           }
         </style>
