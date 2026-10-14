@@ -47,7 +47,10 @@ def main() -> None:
           [data-testid="stHeader"], [data-testid="stToolbar"],
           [data-testid="stDecoration"], footer, #MainMenu,
           [data-testid="stSidebar"], [data-testid="manage-app-button"],
-          [data-testid="stAppDeployButton"],
+          [data-testid="stAppDeployButton"], [data-testid="stStatusWidget"],
+          #stDeployButton, #GithubIcon,
+          .viewerBadge_container__1QSob, .styles_viewerBadge__1yB5_,
+          .viewerBadge_link__1S137, .viewerBadge_text__1JaDK,
           a[href*="github.com"], a[href*="streamlit.io"] {
             display: none !important;
           }
@@ -68,7 +71,6 @@ def main() -> None:
             height: 100vh !important;
             height: 100svh !important;
             height: 100dvh !important;
-            min-height: 100svh !important;
             max-height: 100dvh !important;
           }
         </style>
